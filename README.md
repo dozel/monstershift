@@ -1,6 +1,5 @@
-# phaser
-Don't Get Too Drunk
-Pre-Show Schmooze Prototype
+# monstershift
+Monster Shapeshift - Ludum Dare 35
 
 How to Run
 * node app.js
