@@ -17,7 +17,7 @@ $.extend(Setup.prototype, {
 
         game.add.text(100, 50, ' ', {});
 
-        var title =  $('<div/>', {'class':'title'}).text("DON'T GET TOO DRUNK");
+        var title =  $('<div/>', {'class':'title'}).text("MONSTER SHIFT");
         $('body').prepend(title);
     },
     loadImages: function() {
@@ -25,6 +25,7 @@ $.extend(Setup.prototype, {
         game.antialias = false;
         game.stage.smoothed = false;
 
+        game.load.image('bg', 'assets/imgs/bg.png');
 
     }
 });
