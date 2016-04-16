@@ -8,13 +8,6 @@ function preload() {
 }
 
 function create() {
-    //To get the font working, stupid hack
-    var label = game.add.text(200, 20, '', {
-        font: "18pt slkscr",
-        fill: 0x000000
-    });
-    label.alpha = 0.0;
-
     game.world.setBounds(0,0,4000,2400);
 
     gameWorld = game.add.group();
@@ -27,6 +20,13 @@ function create() {
     this.player = new Player();
     cursors = game.input.keyboard.createCursorKeys();
     game.camera.follow(this.player.sprite);
+
+    var labelX = game.add.text(15, 15, 'X:', this.setup.font(18));
+    var labelY = game.add.text(15, 40, 'Y:', this.setup.font(18));
+    this.labelXVal = game.add.text(50, 15, this.player.sprite.x, this.setup.font(18));
+    this.labelYVal = game.add.text(50, 40, this.player.sprite.y, this.setup.font(18));
+
+    labelX.fixedToCamera = labelY.fixedToCamera = this.labelXVal.fixedToCamera = this.labelYVal.fixedToCamera = true;
 }
 
 function update() {
@@ -47,5 +47,6 @@ function update() {
         console.log('right:' + this.player.sprite.x);
         this.player.sprite.x += 5;
     }
-
+    this.labelXVal.text = this.player.sprite.x;
+    this.labelYVal.text = this.player.sprite.y;
 }

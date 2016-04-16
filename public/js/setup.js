@@ -4,7 +4,17 @@ var Setup = function() {
 Setup.prototype.constructor = Setup;
 
 $.extend(Setup.prototype, {
+    font: function(fontSize) {
+        return this.basicFont = {
+            font: fontSize + "pt slkscr",
+            fill: 0x000000
+        };
+    },
     beginSetup: function () {
+        //To get the font working, stupid hack
+        var label = game.add.text(200, 20, '', this.font(1));
+        label.alpha = 0.0;
+
         this.setupCanvas();
         this.loadImages();
     },
