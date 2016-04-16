@@ -1,10 +1,11 @@
 var game = new Phaser.Game(800, 480, Phaser.CANVAS, '', { preload: preload, create: create, update: update }, false, false);
 var gameWorld;
 var cursors;
+var setup;
 
 function preload() {
     console.log('Preload') ;
-    this.setup = new Setup();
+    setup = new Setup();
 }
 
 function create() {
@@ -19,34 +20,31 @@ function create() {
 
     this.player = new Player();
     cursors = game.input.keyboard.createCursorKeys();
-    game.camera.follow(this.player.sprite);
+    game.camera.follow(this.player.healthBg);
 
-    var labelX = game.add.text(15, 15, 'X:', this.setup.font(18));
-    var labelY = game.add.text(15, 40, 'Y:', this.setup.font(18));
-    this.labelXVal = game.add.text(50, 15, this.player.sprite.x, this.setup.font(18));
-    this.labelYVal = game.add.text(50, 40, this.player.sprite.y, this.setup.font(18));
+    var labelX = game.add.text(15, 15, 'X:', setup.font(18));
+    var labelY = game.add.text(15, 40, 'Y:', setup.font(18));
+    this.labelXVal = game.add.text(50, 15, this.player.healthBg.x, setup.font(18));
+    this.labelYVal = game.add.text(50, 40, this.player.healthBg.y, setup.font(18));
 
     labelX.fixedToCamera = labelY.fixedToCamera = this.labelXVal.fixedToCamera = this.labelYVal.fixedToCamera = true;
 }
 
 function update() {
     if (cursors.up.isDown) {
-        console.log('up:' + this.player.sprite.y);
-        this.player.sprite.y -= 5;
+        this.player.moveUp();
     }
     else if (cursors.down.isDown) {
-        console.log('down:' + this.player.sprite.y);
-        this.player.sprite.y += 5;
+        this.player.moveDown();
     }
 
     if (cursors.left.isDown) {
-        console.log('left:' + this.player.sprite.x);
-        this.player.sprite.x -= 5;
+        this.player.moveLeft();
     }
     else if (cursors.right.isDown) {
-        console.log('right:' + this.player.sprite.x);
-        this.player.sprite.x += 5;
+        this.player.moveRight();
     }
-    this.labelXVal.text = this.player.sprite.x;
-    this.labelYVal.text = this.player.sprite.y;
+
+    this.labelXVal.text = this.player.healthBg.x;
+    this.labelYVal.text = this.player.healthBg.y;
 }
