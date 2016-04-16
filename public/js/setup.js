@@ -45,6 +45,9 @@ $.extend(Setup.prototype, {
 
         game.load.image('bg', 'assets/imgs/bg.png');
         game.load.image('player', 'assets/imgs/player.png');
+        game.load.image('vamp', 'assets/imgs/vamp.png');
+        game.load.image('wolf', 'assets/imgs/wolf.png');
+        game.load.image('zomb', 'assets/imgs/zomb.png');
 
     }
 });

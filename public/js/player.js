@@ -22,10 +22,31 @@ $.extend(Player.prototype, {
 
         this.speed = 5;
         this.health = 100;
-
+        this.holdTimer = 0;
+        this.shapeshifting = false;
         //setTimeout(function () {
         //    this.decHealth(50);
         //}.bind(this), 400);
+
+        game.input.keyboard.onDownCallback = function(e) {
+            if (e.keyCode === 90) { //Z on keyboard.
+                this.holdTimer++;
+                if (this.holdTimer > 15) {
+                    //TODO: SHAPESHIFT
+                    if (!this.shapeshifting) {
+                        this.shapeshifting = true;
+                        console.log("Shapeshift");
+                    }
+                }
+            }
+        }.bind(this);
+
+        game.input.keyboard.onUpCallback = function(e) {
+            if (e.keyCode === 90) { //Z on keyboard.
+                this.holdTimer = 0;
+                this.shapeshifting = false;
+            }
+        }.bind(this);
     },
     moveUp: function() {
         if (this.healthBg.y - this.speed >= 0) {

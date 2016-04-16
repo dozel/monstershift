@@ -28,6 +28,39 @@ function create() {
     this.labelYVal = game.add.text(50, 40, this.player.healthBg.y, setup.font(18));
 
     labelX.fixedToCamera = labelY.fixedToCamera = this.labelXVal.fixedToCamera = this.labelYVal.fixedToCamera = true;
+
+    setupEnemies();
+}
+
+function setupEnemies() {
+    var width = 250, height = 200, padding = 50;
+    var randomBoxes = [];
+    for (var i = 0; i < 15; i++) {
+        var randomX = Math.floor(Math.random() * game.world.width - width - 2 * padding + padding);
+        var randomY = Math.floor(Math.random() * game.world.width - height - 2 * padding + padding);
+        randomBoxes.push({x: randomX, y: randomY});
+    }
+    var monsterTypes = ['vamp', 'wolf', 'zomb'];
+    this.enemies = [];
+
+    for (var j = 0; j < randomBoxes.length; j++) {
+        var box = randomBoxes[j];
+        var randomSize = Math.floor(Math.random() * 7);
+        var monster = monsterTypes[Math.floor(Math.random() * 3)];
+        for (var k = 0; k < randomSize; k++) {
+            var pos = randomPos(box.x, box.y, width, height);
+            var enemy = new Enemy(pos.x, pos.y, monster);
+            enemy.groupId = j;
+            enemy.tag = this.enemies.length;
+            this.enemies.push(enemy);
+        }
+    }
+}
+
+function randomPos(x, y, width, height) {
+    var newX = Math.floor(Math.random() * width + x);
+    var newY = Math.floor(Math.random() * height + y);
+    return {x: newX, y: newY};
 }
 
 function update() {
