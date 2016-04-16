@@ -1,0 +1,19 @@
+body {
+    margin: 0;
+    background-color: #000000;
+}
+
+canvas {
+    margin: auto;
+}
+
+.title {
+    font-family: slkscr;
+    font-size: 40px;
+    position: absolute;
+    width: 100%;
+    height: 30px;
+    text-align: center;
+    color: white;
+    top: 3%;
+}

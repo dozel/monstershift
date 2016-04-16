@@ -1,0 +1,314 @@
+/*------------------
+ Fonts!
+------------------*/
+
+body {
+    font-family: 'Advent Pro', sans-serif;
+}
+
+/*------------------
+  General !
+------------------*/
+/* line 52, /Users/liquidpenguins/Dev/Knotch/web/public/css/layout.css */
+*,
+*:before,
+*:after {
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+    -webkit-text-size-adjust: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+/* line 60, /Users/liquidpenguins/Dev/Knotch/web/public/css/layout.css */
+.noCSS3 *,
+.noCSS3 *:before,
+.noCSS3 *:after {
+    /*CSS transitions*/
+    -o-transition-property: none !important;
+    -moz-transition-property: none !important;
+    -ms-transition-property: none !important;
+    -webkit-transition-property: none !important;
+    transition-property: none !important;
+    /*CSS transforms*/
+    -o-transform: none !important;
+    -moz-transform: none !important;
+    -ms-transform: none !important;
+    -webkit-transform: none !important;
+    transform: none !important;
+    /*CSS animations*/
+    -webkit-animation: none !important;
+    -moz-animation: none !important;
+    -o-animation: none !important;
+    -ms-animation: none !important;
+    animation: none !important;
+}
+/* line 81, /Users/liquidpenguins/Dev/Knotch/web/public/css/layout.css */
+body {
+    margin: 0;
+    padding: 0;
+    /*font-family: 'Gotham Rounded A', 'Gotham Rounded B', GothamRound;*/
+    width: 100%;
+    height: 100%;
+    font-size: 12px;
+}
+/* line 90, /Users/liquidpenguins/Dev/Knotch/web/public/css/layout.css */
+.unselectable {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+/* line 94, /Users/liquidpenguins/Dev/Knotch/web/public/css/layout.css */
+img {
+    border: none;
+    vertical-align: inherit;
+}
+/* line 99, /Users/liquidpenguins/Dev/Knotch/web/public/css/layout.css */
+span {
+    vertical-align: inherit;
+}
+/* line 103, /Users/liquidpenguins/Dev/Knotch/web/public/css/layout.css */
+input,
+textarea,
+keygen,
+select,
+button,
+isindex {
+    font-family: inherit;
+}
+/* line 107, /Users/liquidpenguins/Dev/Knotch/web/public/css/layout.css */
+table {
+    border-spacing: 0;
+}
+/* line 111, /Users/liquidpenguins/Dev/Knotch/web/public/css/layout.css */
+td {
+    padding: 0;
+}
+/* line 115, /Users/liquidpenguins/Dev/Knotch/web/public/css/layout.css */
+a {
+    text-decoration: none;
+    color: inherit;
+}
+/* line 121, /Users/liquidpenguins/Dev/Knotch/web/public/css/layout.css */
+a:hover {
+    text-decoration: underline;
+}
+/* line 125, /Users/liquidpenguins/Dev/Knotch/web/public/css/layout.css */
+form {
+    margin: 0;
+    padding: 0;
+}
+/* line 129, /Users/liquidpenguins/Dev/Knotch/web/public/css/layout.css */
+.clearfix:after {
+    content: "";
+    visibility: hidden;
+    display: block;
+    height: 0;
+    clear: both;
+}
+/* line 138, /Users/liquidpenguins/Dev/Knotch/web/public/css/layout.css */
+.contentCentered {
+    text-align: center;
+    white-space: nowrap;
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+/* line 147, /Users/liquidpenguins/Dev/Knotch/web/public/css/layout.css */
+.contentCentered > * {
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+    white-space: normal;
+    -moz-user-select: text;
+    -khtml-user-select: text;
+    -webkit-user-select: text;
+    -ms-user-select: text;
+}
+/* line 158, /Users/liquidpenguins/Dev/Knotch/web/public/css/layout.css */
+.contentCentered:before {
+    content: '';
+    height: 100%;
+    margin: 0 -0.1em;
+    display: inline-block;
+    vertical-align: middle;
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+/* line 169, /Users/liquidpenguins/Dev/Knotch/web/public/css/layout.css */
+#ultraWrapper {
+    background: #F2F2F2;
+}
+/* Used to disable scrolling on the whole page for dialogs */
+/* line 173, /Users/liquidpenguins/Dev/Knotch/web/public/css/layout.css */
+#ultraWrapper.noScroll {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+}
+/* line 180, /Users/liquidpenguins/Dev/Knotch/web/public/css/layout.css */
+#contentSection {
+    width: 100%;
+    max-width: 1500px;
+    margin: 0 auto;
+}
+/* line 186, /Users/liquidpenguins/Dev/Knotch/web/public/css/layout.css */
+#mainWrapper {
+    margin-left: 48px;
+    padding-bottom: 50px;
+}
+/* line 191, /Users/liquidpenguins/Dev/Knotch/web/public/css/layout.css */
+#singleColContent {
+    overflow: hidden;
+    position: relative;
+    padding-top: 22px;
+}
+/* line 197, /Users/liquidpenguins/Dev/Knotch/web/public/css/layout.css */
+.modalBackground {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    position: fixed;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.8);
+    z-index: 9999999;
+}
+/*----------------------
+  Colors
+  ---------------------*/
+/* line 208, /Users/liquidpenguins/Dev/Knotch/web/public/css/layout.css */
+.s0 {
+    background-color: #5ba7ce;
+}
+/* line 209, /Users/liquidpenguins/Dev/Knotch/web/public/css/layout.css */
+.s2 {
+    background-color: #73b3d5;
+}
+/* line 210, /Users/liquidpenguins/Dev/Knotch/web/public/css/layout.css */
+.s4 {
+    background-color: #92c4de;
+}
+/* line 211, /Users/liquidpenguins/Dev/Knotch/web/public/css/layout.css */
+.s6 {
+    background-color: #b2d5e8;
+}
+/* line 212, /Users/liquidpenguins/Dev/Knotch/web/public/css/layout.css */
+.s8 {
+    background-color: #d1e6f1;
+}
+/* line 213, /Users/liquidpenguins/Dev/Knotch/web/public/css/layout.css */
+.s10 {
+    background-color: white;
+}
+/* line 214, /Users/liquidpenguins/Dev/Knotch/web/public/css/layout.css */
+.s12 {
+    background-color: #fda0a2;
+}
+/* line 215, /Users/liquidpenguins/Dev/Knotch/web/public/css/layout.css */
+.s14 {
+    background-color: #fb7676;
+}
+/* line 216, /Users/liquidpenguins/Dev/Knotch/web/public/css/layout.css */
+.s16 {
+    background-color: #fc5f6b;
+}
+/* line 217, /Users/liquidpenguins/Dev/Knotch/web/public/css/layout.css */
+.s18 {
+    background-color: #fb4b6b;
+}
+/* line 218, /Users/liquidpenguins/Dev/Knotch/web/public/css/layout.css */
+.s20 {
+    background-color: #fc366b;
+}
+@-webkit-keyframes spin {
+    /* line 221, /Users/liquidpenguins/Dev/Knotch/web/public/css/layout.css */
+    0% {
+        -webkit-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    /* line 221, /Users/liquidpenguins/Dev/Knotch/web/public/css/layout.css */
+    100% {
+        -webkit-transform: rotate(360deg);
+        -moz-transform: rotate(360deg);
+        -ms-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+@-moz-keyframes spin {
+    /* line 222, /Users/liquidpenguins/Dev/Knotch/web/public/css/layout.css */
+    0% {
+        -webkit-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    /* line 222, /Users/liquidpenguins/Dev/Knotch/web/public/css/layout.css */
+    100% {
+        -webkit-transform: rotate(360deg);
+        -moz-transform: rotate(360deg);
+        -ms-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+@keyframes spin {
+    /* line 223, /Users/liquidpenguins/Dev/Knotch/web/public/css/layout.css */
+    0% {
+        -webkit-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    /* line 223, /Users/liquidpenguins/Dev/Knotch/web/public/css/layout.css */
+    100% {
+        -webkit-transform: rotate(360deg);
+        -moz-transform: rotate(360deg);
+        -ms-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+/* line 228, /Users/liquidpenguins/Dev/Knotch/web/public/css/layout.css */
+.spinner {
+    -webkit-animation: spin 0.75s 0 linear;
+    -moz-animation: spin 0.75s 0 linear;
+    -ms-animation: spin 0.75s 0 linear;
+    -o-animation: spin 0.75s 0 linear;
+    animation: spin 0.75s 0 linear;
+    -webkit-animation-iteration-count: infinite;
+    -moz-animation-iteration-count: infinite;
+    -o-animation-iteration-count: infinite;
+    animation-iteration-count: infinite;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #fb1359;
+    border-right-color: transparent;
+    border-radius: 50%;
+    display: inline-block;
+}
+@media print {
+    /* line 241, /Users/liquidpenguins/Dev/Knotch/web/public/css/layout.css */
+    html,
+    body {
+        /*font-family: 'Gotham Rounded A', 'Gotham Rounded B', GothamRound;*/
+        zoom: 0.86608;
+        /*workaround for phantomJS2 rendering pages too large*/
+    }
+}
+/* line 248, /Users/liquidpenguins/Dev/Knotch/web/public/css/layout.css */
+.A4page {
+    height: 297mm;
+    width: 210mm;
+    padding: 0.8cm 0.2cm;
+}
+/*# sourceMappingURL=layout.css.map */
