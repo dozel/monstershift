@@ -26,6 +26,7 @@ $.extend(Setup.prototype, {
         game.stage.smoothed = false;
 
         game.load.image('bg', 'assets/imgs/bg.png');
+        game.load.image('player', 'assets/imgs/player.png');
 
     }
 });
