@@ -9,8 +9,13 @@ function preload() {
     gameWorld = game.add.group();
 }
 
+var ZOOM_OUT = false;
+
 function create() {
     game.world.setBounds(0,0,4000,2400);
+    if(ZOOM_OUT){
+        game.world.scale.x = game.world.scale.y = 0.2;
+    }
 
     var background = game.add.sprite(0, 0, 'bg', {}, gameWorld);
     background.x = (game.world.width - background.width) / 2;
