@@ -36,12 +36,22 @@ Enemy.prototype.update  = function(){
 $.extend(Enemy.prototype, {
     init: function(x, y, type) {
         this.type = type;
-        var anim = false, speed = 8;
-        if (this.type === 'quick') {
-            type = 'qIdle';
-            anim = true;
+        console.log(this.type);
+        var speed = 8;
+        var texture;
+        switch (this.type) {
+            case 'owl':
+                texture = 'obRun';
+                break;
+            case 'beast':
+                texture = 'dbRun';
+                break;
+            case 'quick':
+                texture = 'qRun';
+                break;
         }
-        Phaser.Sprite.call(this, game, x, y, type);
+        console.log(texture);
+        Phaser.Sprite.call(this, game, x, y, texture);
         this.game.physics.enable(this, Phaser.Physics.ARCADE);
 
         game.add.existing(this);
@@ -56,11 +66,8 @@ $.extend(Enemy.prototype, {
             this.scale.x = -1;
         }
 
-
-        if (anim) {
-            this.animations.add(type);
-            this.animations.play(type, speed, true);
-        }
+        this.animations.add(type);
+        this.animations.play(type, speed, true);
     },
     moveTo: function(x, y, speed) {
         var rotation = this.game.math.angleBetween(this.x, this.y, x, y);

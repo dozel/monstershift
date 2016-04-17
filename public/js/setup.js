@@ -51,8 +51,10 @@ $.extend(Setup.prototype, {
         game.load.spritesheet('qIdle', 'assets/imgs/quick_idle_sheet.png', 128, 128, 6);
         game.load.spritesheet('qRun', 'assets/imgs/quick_run_sheet.png', 128, 128, 4);
 
-        game.load.image('owl', 'assets/imgs/owlbear.png');
-        game.load.image('beast', 'assets/imgs/displacerbeast.png');
+        game.load.spritesheet('obIdle', 'assets/imgs/owlbear_idle_sheet.png', 192, 192, 13);
+        game.load.spritesheet('obRun', 'assets/imgs/owlbear_run_sheet.png', 192, 192, 4);
 
+        game.load.spritesheet('dbIdle', 'assets/imgs/db_idle_sheet.png', 192, 192, 15);
+        game.load.spritesheet('dbRun', 'assets/imgs/db_run_sheet.png', 192, 192, 4);
     }
 });

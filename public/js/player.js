@@ -115,60 +115,50 @@ $.extend(Player.prototype, {
         this.running = true;
         var texture;
         var speed = 8;
-        var anim = false;
 
         switch (this.shapeshift) {
             case 'owl':
-                texture = 'owl';
+                texture = 'obRun';
                 break;
             case 'beast':
-                texture = 'beast';
+                texture = 'dbRun';
                 break;
             case 'quick':
-                anim = true;
                 texture = 'qRun';
                 break;
             case 'dg':
             default:
-                anim = true;
                 texture = 'dgRun';
                 break;
         }
         this.sprite.loadTexture(texture);
-        if (anim) {
-            this.sprite.animations.add(texture);
-            this.sprite.animations.play(texture, speed, true);
-        }
+        this.sprite.animations.add(texture);
+        this.sprite.animations.play(texture, speed, true);
     },
     setIdle: function() {
         this.running = false;
         //console.log('IDLE');
         var texture;
         var speed = 8;
-        var anim = false;
 
         switch (this.shapeshift) {
             case 'owl':
-                texture = 'owl';
+                texture = 'obIdle';
                 break;
             case 'beast':
-                texture = 'beast';
+                texture = 'dbIdle';
                 break;
             case 'quick':
-                anim = true;
                 texture = 'qIdle';
                 break;
             case 'dg':
             default:
-                anim = true;
                 texture = 'dgIdle';
                 break;
         }
         this.sprite.loadTexture(texture);
-        if (anim) {
-            this.sprite.animations.add(texture);
-            this.sprite.animations.play(texture, speed, true);
-        }
+        this.sprite.animations.add(texture);
+        this.sprite.animations.play(texture, speed, true);
     },
     moveUp: function() {
         if (this.sprite.y - this.speed >= 0 && this.holdTimer === 0) {
