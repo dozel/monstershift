@@ -25,6 +25,7 @@ $.extend(Setup.prototype, {
 
         this.setupCanvas();
         this.loadImages();
+        this.loadSounds();
     },
     setupCanvas: function () {
         var canvas = $('canvas');
@@ -56,5 +57,8 @@ $.extend(Setup.prototype, {
 
         game.load.spritesheet('dbIdle', 'assets/imgs/db_idle_sheet.png', 192, 192, 15);
         game.load.spritesheet('dbRun', 'assets/imgs/db_run_sheet.png', 192, 192, 4);
+    },
+    loadSounds: function() {
+        game.load.audio('song', ['assets/sounds/monstershift.ogg', 'assets/sounds/monstershift.mp3']);
     }
 });

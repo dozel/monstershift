@@ -40,6 +40,9 @@ function create() {
 
     setupEnemies(this.player);
     gameWorld.bringToTop(actors);
+
+    this.music = game.add.audio('song');
+    this.music.play("",0,0.5,true);
 }
 
 function setupEnemies(player) {
