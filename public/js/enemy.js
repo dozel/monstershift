@@ -2,12 +2,13 @@ PLAYER_DISTANCE = 400;
 ROAM_DISTANCE = 100;
 ROAM_SPEED = 100;
 CHASE_SPEED = 200;
-
+IDLE_TIME = 3000;
 
 var Enemy = function(x, y, type) {
     this.init(x, y, type);
     this.player = null;
     this.roamPosition = null;
+    this.idleStarted = 0;
 };
 
 
@@ -18,7 +19,13 @@ Enemy.prototype.update  = function(){
     if (playerIsClose) {
         this.roamPosition = null;
         return this.moveTo(this.player.sprite.x, this.player.sprite.y, CHASE_SPEED);
-    } else{
+    } else if(this.idleStarted){
+        if(game.time.now - this.idleStarted > IDLE_TIME){
+            this.idleStarted = 0;
+        }
+        return;
+    }
+    else {
         if(!this.roamPosition){
             var randomX = this.x - 125 + Math.floor(Math.random() * 250);
             var randomY = this.y - 125 + Math.floor(Math.random() * 250);
@@ -27,6 +34,7 @@ Enemy.prototype.update  = function(){
         var roamPosIsClose = this.isClose(this, this.roamPosition, ROAM_DISTANCE);
         if(roamPosIsClose){
             this.roamPosition = null;
+            this.idleStarted = game.time.now;
             return;
         }
         return this.moveTo(this.roamPosition.x, this.roamPosition.y, ROAM_SPEED);
