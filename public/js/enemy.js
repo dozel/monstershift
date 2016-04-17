@@ -11,12 +11,12 @@ var Enemy = function(x, y, type) {
     this.idleStarted = 0;
 };
 
-
 Enemy.prototype = Object.create(Phaser.Sprite.prototype);
 Enemy.prototype.constructor = Enemy;
 Enemy.prototype.update  = function(){
     var playerIsClose = this.isClose(this, this.player.sprite, PLAYER_DISTANCE);
-    if (playerIsClose) {
+    var sameType = (this.beastType === this.player.shapeshift);
+    if (playerIsClose && !sameType) {
         this.roamPosition = null;
         return this.moveTo(this.player.sprite.x, this.player.sprite.y, CHASE_SPEED);
     } else if(this.idleStarted){
@@ -33,6 +33,7 @@ Enemy.prototype.update  = function(){
         }
         var roamPosIsClose = this.isClose(this, this.roamPosition, ROAM_DISTANCE);
         if(roamPosIsClose){
+            this.stopMoving();
             this.roamPosition = null;
             this.idleStarted = game.time.now;
             return;
@@ -42,9 +43,15 @@ Enemy.prototype.update  = function(){
 }
 
 $.extend(Enemy.prototype, {
+    stopMoving: function(){
+            this.body.velocity.x = 0;
+            this.body.velocity.y = 0;
+            //Set idle anim
+    },
     init: function(x, y, type) {
         this.type = type;
-        console.log(this.type);
+        this.beastType = type;
+        console.log('enemy Type is:', this.type);
         var speed = 8;
         var texture;
         switch (this.type) {
@@ -58,7 +65,6 @@ $.extend(Enemy.prototype, {
                 texture = 'qRun';
                 break;
         }
-        console.log(texture);
         Phaser.Sprite.call(this, game, x, y, texture);
         this.game.physics.enable(this, Phaser.Physics.ARCADE);
 
