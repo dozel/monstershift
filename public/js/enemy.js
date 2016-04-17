@@ -1,40 +1,36 @@
-this.MIN_DISTANCE = 32; //pixels?
+PLAYER_DISTANCE = 400;
+ROAM_DISTANCE = 100;
+ROAM_SPEED = 100;
+CHASE_SPEED = 200;
+
 
 var Enemy = function(x, y, type) {
     this.init(x, y, type);
-    this.target = null;
-    this._target = null;
-    this.chasing = false;
+    this.player = null;
+    this.roamPosition = null;
 };
 
 
 Enemy.prototype = Object.create(Phaser.Sprite.prototype);
 Enemy.prototype.constructor = Enemy;
 Enemy.prototype.update  = function(){
-    this.moveTo(this.target.sprite.x, this.target.sprite.y);
-    return;
-
-    if(!this.target || !this._target){
-        return;
-    }
-
-    var distance = this.game.math.distance(this.x, this.y, this._target.x, this._target.y);
-    if (distance < this.MIN_DISTANCE) {
-        this.chasing = false;
-    }
-
-    if(this.chasing === false){
-        this.chasing = true;
-        if(!this.target){
-            this._target.x = this.x - 5 + (Math.random() * 10);
-            this._target.y = this.y - 5 + (Math.random() * 10);
-        } else{
-            this._target.x = this.target.x;
-            this._target.y = this.target.y;
+    var playerIsClose = this.isClose(this, this.player.sprite, PLAYER_DISTANCE);
+    if (playerIsClose) {
+        this.roamPosition = null;
+        return this.moveTo(this.player.sprite.x, this.player.sprite.y, CHASE_SPEED);
+    } else{
+        if(!this.roamPosition){
+            var randomX = this.x - 125 + Math.floor(Math.random() * 250);
+            var randomY = this.y - 125 + Math.floor(Math.random() * 250);
+            this.roamPosition = {x: randomX, y: randomY};
         }
+        var roamPosIsClose = this.isClose(this, this.roamPosition, ROAM_DISTANCE);
+        if(roamPosIsClose){
+            this.roamPosition = null;
+            return;
+        }
+        return this.moveTo(this.roamPosition.x, this.roamPosition.y, ROAM_SPEED);
     }
-
-    this.moveTo(this._target.x, this._target.y);
 }
 
 $.extend(Enemy.prototype, {
@@ -46,6 +42,8 @@ $.extend(Enemy.prototype, {
             anim = true;
         }
         Phaser.Sprite.call(this, game, x, y, type);
+        this.game.physics.enable(this, Phaser.Physics.ARCADE);
+
         game.add.existing(this);
         actors.add(this);
 
@@ -64,17 +62,19 @@ $.extend(Enemy.prototype, {
             this.animations.play(type, speed, true);
         }
     },
-    moveTo: function(x, y) {
-        game.add.tween(this).to({
-            x: x,
-            y:y
-        }, 0, Phaser.Easing.Linear.None, true);
+    moveTo: function(x, y, speed) {
+        var rotation = this.game.math.angleBetween(this.x, this.y, x, y);
+
+        // Calculate velocity vector based on rotation and this.MAX_SPEED
+        this.body.velocity.x = Math.cos(rotation) * speed;
+        this.body.velocity.y = Math.sin(rotation) * speed;
     },
-    setTarget: function(target){
-        this.target = target;
-        if(this.target.x)
-            this._target = {x:target.x, y:target.y};
-        if(this.target.sprite.x)
-            this._target = {x:target.x, y:target.y};
+    isClose: function(a, b, minDistance){
+        var distance = this.game.math.distance(a.x, a.y, b.x, b.y);
+        var tooClose = (distance < minDistance);
+        return tooClose;
+    },
+    setPlayer: function(player){
+        this.player = player;
     }
 });

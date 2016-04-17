@@ -2,6 +2,10 @@ var game = new Phaser.Game(800, 480, Phaser.CANVAS, '', { preload: preload, crea
 var gameWorld, actors, theBottom; //Groups
 var cursors;
 var setup;
+var ZOOM_OUT        = true;
+var MAX_HERDS       = 10;
+var MAX_HERD_SIZE   = 10;
+
 
 function preload() {
     console.log('Preload') ;
@@ -9,7 +13,6 @@ function preload() {
     gameWorld = game.add.group();
 }
 
-var ZOOM_OUT = true;
 
 function create() {
     game.world.setBounds(0,0,4000,2400);
@@ -38,8 +41,6 @@ function create() {
     setupEnemies(this.player);
     gameWorld.bringToTop(actors);
 }
-var MAX_HERDS       = 10;
-var MAX_HERD_SIZE   = 100;
 
 function setupEnemies(player) {
     var width = 250, height = 200, padding = 50;
@@ -70,7 +71,7 @@ function setupEnemies(player) {
             enemy.groupId = j;
             enemy.tag = this.enemies.length;
             this.enemies.push(enemy);
-            enemy.setTarget(player);
+            enemy.setPlayer(player);
         }
     }
 }
