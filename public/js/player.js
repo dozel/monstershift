@@ -1,3 +1,5 @@
+var monsters = ['owl', 'beast', 'quick', 'dg'];
+
 var Player = function() {
     this.init();
 };
@@ -18,6 +20,7 @@ $.extend(Player.prototype, {
         this.health = 100;
         this.holdTimer = 0;
         this.shapeshifting = false;
+        this.shapeshift = 'dg';
 
         this.keyCodes = {};
         //setTimeout(function () {
@@ -91,6 +94,13 @@ $.extend(Player.prototype, {
                 tint: 0xffffff
             }, 200, Phaser.Easing.Linear.None, true);
         }.bind(this), 600);
+
+        setTimeout(function() {
+            var randomIndex = Math.floor(Math.random() * 4);
+            console.log(monsters[randomIndex]);
+            this.shapeshift = monsters[randomIndex];
+            this.setIdle();
+        }.bind(this), 800);
     },
     checkKeyDown: function() {
         for (var key in this.keyCodes) {
@@ -101,18 +111,62 @@ $.extend(Player.prototype, {
         return false;
     },
     setRun: function () {
-        console.log('RUN');
+        //console.log('RUN');
         this.running = true;
-        this.sprite.loadTexture('dgRun');
-        this.sprite.animations.add('dgRun');
-        this.sprite.animations.play('dgRun', 8, true);
+        var texture;
+        var speed = 8;
+        var anim = false;
+
+        switch (this.shapeshift) {
+            case 'owl':
+                texture = 'owl';
+                break;
+            case 'beast':
+                texture = 'beast';
+                break;
+            case 'quick':
+                texture = 'quick';
+                break;
+            case 'dg':
+            default:
+                anim = true;
+                texture = 'dgIdle';
+                break;
+        }
+        this.sprite.loadTexture(texture);
+        if (anim) {
+            this.sprite.animations.add(texture);
+            this.sprite.animations.play(texture, speed, true);
+        }
     },
     setIdle: function() {
         this.running = false;
-        console.log('IDLE');
-        this.sprite.loadTexture('dgIdle');
-        this.sprite.animations.add('dgIdle');
-        this.sprite.animations.play('dgIdle', 8, true);
+        //console.log('IDLE');
+        var texture;
+        var speed = 8;
+        var anim = false;
+
+        switch (this.shapeshift) {
+            case 'owl':
+                texture = 'owl';
+                break;
+            case 'beast':
+                texture = 'beast';
+                break;
+            case 'quick':
+                texture = 'quick';
+                break;
+            case 'dg':
+            default:
+                anim = true;
+                texture = 'dgIdle';
+                break;
+        }
+        this.sprite.loadTexture(texture);
+        if (anim) {
+            this.sprite.animations.add(texture);
+            this.sprite.animations.play(texture, speed, true);
+        }
     },
     moveUp: function() {
         if (this.sprite.y - this.speed >= 0 && this.holdTimer === 0) {
