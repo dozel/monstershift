@@ -23,9 +23,11 @@ $.extend(Player.prototype, {
         this.shapeshift = 'dg';
 
         this.keyCodes = {};
+        this.lastTyped = {};
         //setTimeout(function () {
         //    this.decHealth(50);
         //}.bind(this), 400);
+
 
         game.input.keyboard.onDownCallback = function(e) {
             console.log(e.keyCode);
@@ -35,12 +37,22 @@ $.extend(Player.prototype, {
                     alpha: 1
                 }, 200, Phaser.Easing.Linear.None, true);
 
-                this.holdTimer++;
-                console.log('code:' + code + ' t:' + this.holdTimer);
-                if (this.holdTimer > 5) {
-                    if (!this.shapeshifting) {
-                        this.shapeshifting = true;
-                        this.shapeShift(code);
+                if (!this.lastTyped.keyCode) {
+                    this.lastTyped = {keyCode: code, date: (new Date()).getTime()};
+                }
+                else if (this.lastTyped.keyCode === code){
+                    var now = (new Date()).getTime();
+                    var diff = now - this.lastTyped.date;
+                    if (diff < 1000) {
+                        if (!this.shapeshifting) {
+                            this.shapeshifting = true;
+                            this.shapeShift(code);
+                            this.shapeshifting = false;
+                            game.add.tween(this.detection).to({
+                                alpha: 0
+                            }, 200, Phaser.Easing.Linear.None, true);
+                            this.lastTyped = {};
+                        }
                     }
                 }
             }
@@ -54,12 +66,25 @@ $.extend(Player.prototype, {
 
         game.input.keyboard.onUpCallback = function(e) {
             var code = e.keyCode;
-            if (e.keyCode === 90 || code == 88 || code == 67) { //Z->90, X->88, C->67
-                this.holdTimer = 0;
-                this.shapeshifting = false;
-                game.add.tween(this.detection).to({
-                    alpha: 0
-                }, 200, Phaser.Easing.Linear.None, true);
+            if (code === 90 || code == 88 || code == 67) { //Z->90, X->88, C->67, V->86
+                if (code === this.lastTyped.keyCode) {
+                    var now = (new Date()).getTime();
+                    var diff = now - this.lastTyped.date;
+                    if (diff > 1000) {
+                        this.shapeshifting = false;
+                        game.add.tween(this.detection).to({
+                            alpha: 0
+                        }, 200, Phaser.Easing.Linear.None, true);
+                        this.lastTyped = {};
+                    }
+                }
+                else {
+                    this.shapeshifting = false;
+                    game.add.tween(this.detection).to({
+                        alpha: 0
+                    }, 200, Phaser.Easing.Linear.None, true);
+                    this.lastTyped = {};
+                }
             }
             if (code >= 37 && code <= 40) {
                 this.keyCodes[code] = false;
