@@ -1,6 +1,5 @@
 var game = new Phaser.Game(800, 480, Phaser.CANVAS, '', { preload: preload, create: create, update: update }, false, false);
-var gameWorld;
-var actors;
+var gameWorld, actors, theBottom; //Groups
 var cursors;
 var setup;
 
@@ -32,6 +31,7 @@ function create() {
     labelX.fixedToCamera = labelY.fixedToCamera = this.labelXVal.fixedToCamera = this.labelYVal.fixedToCamera = true;
 
     setupEnemies();
+    gameWorld.bringToTop(actors);
 }
 
 function setupEnemies() {

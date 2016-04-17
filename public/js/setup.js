@@ -1,3 +1,11 @@
+var colors = {
+    detect: 0xf1e5d3,
+    vamp: 0xff7260,
+    wolf: 0x43869f,
+    zomb: 0x505050,
+    player: 0xe5c395
+};
+
 var Setup = function() {
     this.beginSetup();
 };
@@ -14,14 +22,6 @@ $.extend(Setup.prototype, {
         //To get the font working, stupid hack
         var label = game.add.text(200, 20, '', this.font(1));
         label.alpha = 0.0;
-
-        this.colors = {
-            detect: 0xf1e5d3,
-            vamp: 0xff7260,
-            wolf: 0x43869f,
-            zomb: 0x505050,
-            player: 0xe5c395
-        };
 
         this.setupCanvas();
         this.loadImages();
