@@ -44,7 +44,6 @@ Enemy.prototype.update  = function(){
 $.extend(Enemy.prototype, {
     init: function(x, y, type) {
         this.type = type;
-        console.log(this.type);
         var speed = 8;
         var texture;
         switch (this.type) {

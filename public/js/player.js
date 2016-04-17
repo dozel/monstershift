@@ -28,18 +28,19 @@ $.extend(Player.prototype, {
         //}.bind(this), 400);
 
         game.input.keyboard.onDownCallback = function(e) {
+            console.log(e.keyCode);
             var code = e.keyCode;
-            if (code === 90) { //Z on keyboard.
+            if (code === 90 || code == 88 || code == 67) { //Z->90, X->88, C->67, V->86
                 game.add.tween(this.detection).to({
                     alpha: 1
                 }, 200, Phaser.Easing.Linear.None, true);
 
                 this.holdTimer++;
-                if (this.holdTimer > 15) {
-                    //TODO: SHAPESHIFT
+                console.log('code:' + code + ' t:' + this.holdTimer);
+                if (this.holdTimer > 5) {
                     if (!this.shapeshifting) {
                         this.shapeshifting = true;
-                        this.shapeShift();
+                        this.shapeShift(code);
                     }
                 }
             }
@@ -53,14 +54,12 @@ $.extend(Player.prototype, {
 
         game.input.keyboard.onUpCallback = function(e) {
             var code = e.keyCode;
-            if (e.keyCode === 90) { //Z on keyboard.
+            if (e.keyCode === 90 || code == 88 || code == 67) { //Z->90, X->88, C->67
                 this.holdTimer = 0;
                 this.shapeshifting = false;
                 game.add.tween(this.detection).to({
                     alpha: 0
                 }, 200, Phaser.Easing.Linear.None, true);
-
-
             }
             if (code >= 37 && code <= 40) {
                 this.keyCodes[code] = false;
@@ -71,7 +70,7 @@ $.extend(Player.prototype, {
         }.bind(this);
         this.setIdle();
     },
-    shapeShift: function() {
+    shapeShift: function(code) {
         console.log("Shapeshift");
         game.add.tween(this.sprite).to({
             tint: colors.vamp
@@ -95,12 +94,21 @@ $.extend(Player.prototype, {
             }, 200, Phaser.Easing.Linear.None, true);
         }.bind(this), 600);
 
+            //Z->90, X->88, C->67
         setTimeout(function() {
-            var randomIndex = Math.floor(Math.random() * 4);
-            console.log(monsters[randomIndex]);
-            this.shapeshift = monsters[randomIndex];
+            switch(code) {
+                case 90:
+                    this.shapeshift = 'owl';
+                    break;
+                case 88:
+                    this.shapeshift = 'beast';
+                    break;
+                case 67:
+                    this.shapeshift = 'quick';
+                    break;
+            }
             this.setIdle();
-        }.bind(this), 800);
+        }.bind(this, code), 800);
     },
     checkKeyDown: function() {
         for (var key in this.keyCodes) {
