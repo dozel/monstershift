@@ -2,10 +2,10 @@ var game = new Phaser.Game(800, 480, Phaser.CANVAS, '', { preload: preload, crea
 var gameWorld, actors, theBottom; //Groups
 var cursors;
 var setup;
-var ZOOM_OUT        = false;
-var MAX_HERDS       = 10;
-var MAX_HERD_SIZE   = 10;
 
+var ZOOM_OUT        = true;
+var MAX_HERDS       = 1;
+var MAX_HERD_SIZE   = 1;
 
 function preload() {
     console.log('Preload') ;
