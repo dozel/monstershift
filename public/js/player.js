@@ -125,12 +125,13 @@ $.extend(Player.prototype, {
                 texture = 'beast';
                 break;
             case 'quick':
-                texture = 'quick';
+                anim = true;
+                texture = 'qRun';
                 break;
             case 'dg':
             default:
                 anim = true;
-                texture = 'dgIdle';
+                texture = 'dgRun';
                 break;
         }
         this.sprite.loadTexture(texture);
@@ -154,7 +155,8 @@ $.extend(Player.prototype, {
                 texture = 'beast';
                 break;
             case 'quick':
-                texture = 'quick';
+                anim = true;
+                texture = 'qIdle';
                 break;
             case 'dg':
             default:

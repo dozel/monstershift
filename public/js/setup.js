@@ -48,9 +48,11 @@ $.extend(Setup.prototype, {
         game.load.spritesheet('dgIdle', 'assets/imgs/dg_idle_sheet.png', 128, 128, 8);
         game.load.spritesheet('dgRun', 'assets/imgs/dg_walk_sheet.png', 128, 128, 4);
 
+        game.load.spritesheet('qIdle', 'assets/imgs/quick_idle_sheet.png', 128, 128, 6);
+        game.load.spritesheet('qRun', 'assets/imgs/quick_run_sheet.png', 128, 128, 4);
+
         game.load.image('owl', 'assets/imgs/owlbear.png');
         game.load.image('beast', 'assets/imgs/displacerbeast.png');
-        game.load.image('quick', 'assets/imgs/quickling.png');
 
     }
 });

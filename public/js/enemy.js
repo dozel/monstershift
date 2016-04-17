@@ -6,6 +6,11 @@ Enemy.prototype.constructor = Enemy;
 $.extend(Enemy.prototype, {
     init: function(x, y, type) {
         this.type = type;
+        var anim = false, speed = 8;
+        if (this.type === 'quick') {
+            type = 'qIdle';
+            anim = true;
+        }
         this.sprite = game.add.sprite(x, y, type, {}, actors);
         this.sprite.anchor.setTo(0.5, 0.5);
 
@@ -14,6 +19,12 @@ $.extend(Enemy.prototype, {
         }
         else {
             this.sprite.scale.x = -1;
+        }
+
+
+        if (anim) {
+            this.sprite.animations.add(type);
+            this.sprite.animations.play(type, speed, true);
         }
     },
     moveTo: function(x, y) {
