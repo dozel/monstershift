@@ -56,4 +56,3 @@ $.extend(Setup.prototype, {
 
     }
 });
-

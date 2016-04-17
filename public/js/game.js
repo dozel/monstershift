@@ -9,7 +9,7 @@ function preload() {
     gameWorld = game.add.group();
 }
 
-var ZOOM_OUT = true;
+var ZOOM_OUT = false;
 
 function create() {
     game.world.setBounds(0,0,4000,2400);
