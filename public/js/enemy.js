@@ -1,8 +1,11 @@
 var Enemy = function(x, y, type) {
     this.init(x, y, type);
 };
-Enemy.prototype = Phaser.Utils.extend(true, Phaser.Sprite.prototype, PIXI.Sprite.prototype);
+Enemy.prototype = Object.create(Phaser.Sprite.prototype);
 Enemy.prototype.constructor = Enemy;
+Enemy.prototype.update  = function(){
+    this.angle++;
+}
 
 $.extend(Enemy.prototype, {
     init: function(x, y, type) {
