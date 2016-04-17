@@ -9,7 +9,7 @@ function preload() {
     gameWorld = game.add.group();
 }
 
-var ZOOM_OUT = false;
+var ZOOM_OUT = true;
 
 function create() {
     game.world.setBounds(0,0,4000,2400);
@@ -35,24 +35,27 @@ function create() {
 
     labelX.fixedToCamera = labelY.fixedToCamera = this.labelXVal.fixedToCamera = this.labelYVal.fixedToCamera = true;
 
-    setupEnemies();
+    setupEnemies(this.player);
     gameWorld.bringToTop(actors);
 }
+var MAX_HERDS       = 10;
+var MAX_HERD_SIZE   = 100;
 
-function setupEnemies() {
+function setupEnemies(player) {
     var width = 250, height = 200, padding = 50;
-    var randomBoxes = [];
-    for (var i = 0; i < 15; i++) {
-        var randomX = Math.floor(Math.random() * game.world.width - width - 2 * padding + padding);
-        var randomY = Math.floor(Math.random() * game.world.width - height - 2 * padding + padding);
-        randomBoxes.push({x: randomX, y: randomY});
+    var herds = []; //Groups of same types of enemies
+    for (var i = 0; i < MAX_HERDS; i++) {
+
+        var randomX = Math.floor(Math.random() * game.world.width - width - (2 * padding));
+        var randomY = Math.floor(Math.random() * game.world.height - height - (2 * padding));
+        herds.push({x: randomX, y: randomY});
     }
     var monsterTypes = ['quick', 'beast', 'owl'];
     this.enemies = [];
 
-    for (var j = 0; j < randomBoxes.length; j++) {
-        var box = randomBoxes[j];
-        var randomSize = Math.floor(Math.random() * 7);
+    for (var j = 0; j < herds.length; j++) {
+        var box = herds[j];
+        var randomSize = Math.floor(Math.random() * MAX_HERD_SIZE);
         var monster = monsterTypes[Math.floor(Math.random() * 3)];
         //More quicklings, and less owl bears
         if (monster === 'owl') {
@@ -67,6 +70,7 @@ function setupEnemies() {
             enemy.groupId = j;
             enemy.tag = this.enemies.length;
             this.enemies.push(enemy);
+            enemy.setTarget(player);
         }
     }
 }
