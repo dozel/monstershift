@@ -44,10 +44,13 @@ $.extend(Setup.prototype, {
         game.stage.smoothed = false;
 
         game.load.image('bg', 'assets/imgs/bg.png');
-        game.load.image('player', 'assets/imgs/player.png');
-        game.load.image('vamp', 'assets/imgs/vamp.png');
-        game.load.image('wolf', 'assets/imgs/wolf.png');
-        game.load.image('zomb', 'assets/imgs/zomb.png');
+
+        game.load.spritesheet('dgIdle', 'assets/imgs/dg_idle_sheet.png', 128, 128, 8);
+        game.load.spritesheet('dgRun', 'assets/imgs/dg_walk_sheet.png', 128, 128, 4);
+
+        game.load.image('owl', 'assets/imgs/owlbear.png');
+        game.load.image('beast', 'assets/imgs/displacerbeast.png');
+        game.load.image('quick', 'assets/imgs/quickling.png');
 
     }
 });

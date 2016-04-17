@@ -10,26 +10,22 @@ $.extend(Player.prototype, {
         this.detection.drawCircle(0, 0, 300);
         this.detection.alpha = 0;
 
-        this.healthBar = game.add.sprite(game.world.centerX, game.world.centerY, 'player', {}, gameWorld);
-        this.healthBar.anchor.setTo(0.5, 0.5);
-
-        this.healthBg = game.add.graphics(this.healthBar.x - this.healthBar.width / 2, this.healthBar.y - this.healthBar.height / 2);
-        this.healthBg.beginFill(0x665441, 1);
-        this.healthBg.drawRect(0, 0, this.healthBar.width, this.healthBar.height);
-        gameWorld.add(this.healthBg);
-
-        this.healthBar.bringToTop();
+        this.sprite = game.add.sprite(game.world.centerX, game.world.centerY, 'dgIdle', {}, actors);
+        this.sprite.anchor.setTo(0.5, 0.5);
 
         this.speed = 5;
         this.health = 100;
         this.holdTimer = 0;
         this.shapeshifting = false;
+
+        this.keyCodes = {};
         //setTimeout(function () {
         //    this.decHealth(50);
         //}.bind(this), 400);
 
         game.input.keyboard.onDownCallback = function(e) {
-            if (e.keyCode === 90) { //Z on keyboard.
+            var code = e.keyCode;
+            if (code === 90) { //Z on keyboard.
                 this.holdTimer++;
                 if (this.holdTimer > 15) {
                     //TODO: SHAPESHIFT
@@ -39,47 +35,75 @@ $.extend(Player.prototype, {
                     }
                 }
             }
+            else if (code >= 37 && code <= 40) {
+                this.setRun();
+                this.keyCodes[code] = true;
+            }
         }.bind(this);
 
         game.input.keyboard.onUpCallback = function(e) {
+            var code = e.keyCode;
             if (e.keyCode === 90) { //Z on keyboard.
                 this.holdTimer = 0;
                 this.shapeshifting = false;
             }
+            else if (code >= 37 && code <= 40) {
+                this.keyCodes[code] = false;
+                if (!this.checkKeyDown) {
+                    this.setIdle();
+                }
+            }
         }.bind(this);
+        this.setIdle();
+    },
+    checkKeyDown: function() {
+        for (var key in this.keyCodes) {
+            if (this.keyCodes[key]) {
+                return true;
+            }
+        }
+        return false;
+    },
+    setRun: function () {
+        this.sprite.loadTexture('dgRun');
+        this.sprite.animations.add('dgRun');
+        this.sprite.animations.play('dgRun', 8, true);
+    },
+    setIdle: function() {
+        this.sprite.loadTexture('dgIdle');
+        this.sprite.animations.add('dgIdle');
+        this.sprite.animations.play('dgIdle', 8, true);
     },
     moveUp: function() {
-        if (this.healthBg.y - this.speed >= 0) {
-            this.healthBg.y -= this.speed;
-            this.healthBar.y   -= this.speed;
+        if (this.sprite.y - this.speed >= 0) {
+            this.sprite.y -= this.speed;
             this.detection.y -= this.speed;
+            actors.sort('bottom', Phaser.Group.SORT_ASCENDING);
         }
     },
     moveDown: function() {
-        if (this.healthBg.y + this.speed + this.healthBg.graphicsData[0].shape.height <= game.world.height) {
-            this.healthBg.y += this.speed;
-            this.healthBar.y   += this.speed;
+        if (this.sprite.y + this.speed + this.sprite.height <= game.world.height) {
+            this.sprite.y += this.speed;
             this.detection.y += this.speed;
+            actors.sort('bottom', Phaser.Group.SORT_ASCENDING);
         }
     },
     moveLeft: function() {
-        if (this.healthBg.x - this.speed >= 0) {
-            this.healthBg.x -= this.speed;
-            this.healthBar.x   -= this.speed;
+        if (this.sprite.x - this.speed >= 0) {
+            this.sprite.x -= this.speed;
             this.detection.x -= this.speed;
+            actors.sort('bottom', Phaser.Group.SORT_ASCENDING);
         }
     },
     moveRight: function() {
-        if (this.healthBg.x + this.speed + this.healthBg.graphicsData[0].shape.width <= game.world.width) {
-            this.healthBg.x += this.speed;
-            this.healthBar.x += this.speed;
+        if (this.sprite.x + this.speed + this.sprite.width <= game.world.width) {
+            this.sprite.x += this.speed;
             this.detection.x += this.speed
+            actors.sort('bottom', Phaser.Group.SORT_ASCENDING);
         }
     },
     decHealth: function(amount) {
         this.health -= amount;
-        this.healthBar.height = this.healthBg.graphicsData[0].shape.height * this.healthBar / 100;
-        this.healthBar.y += (this.healthBg.graphicsData[0].shape.height - this.healthBar.height) / 2;
 
         if (this.health <= 0) {
             //TODO: TRIGGER GAME_OVER
