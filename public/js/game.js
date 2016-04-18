@@ -48,9 +48,8 @@ function create() {
 
     actors = game.add.group(gameWorld);
 
-    player = new Player();
-    cursors = game.input.keyboard.createCursorKeys();
-    game.camera.follow(player.sprite);
+    game.camera.x = game.world.centerX - 800;
+    game.camera.y = game.world.centerY - 480;
 
     game.input.keyboard.onUpCallback = function(e) {
         var code = e.keyCode;
@@ -63,6 +62,10 @@ function create() {
 
 function startGame() {
     game.started = true;
+
+    player = new Player();
+    cursors = game.input.keyboard.createCursorKeys();
+    game.camera.follow(player.sprite);
 
     setupEnemies(player);
     placeSpaceShip(player);

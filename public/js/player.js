@@ -64,7 +64,7 @@ $.extend(Player.prototype, {
                 }
             }
             if (code >= 37 && code <= 40) {
-                if (!this.running && this.holdTimer === 0) {
+                if (!this.running && !this.shapeshifting) {
                     this.setRun();
                 }
                 this.keyCodes[code] = true;
@@ -72,28 +72,32 @@ $.extend(Player.prototype, {
         }.bind(this);
 
         game.input.keyboard.onUpCallback = function(e) {
-            var code = e.keyCode;
-            if (code === 90 || code == 88 || code == 67 || code === 86) { //Z->90, X->88, C->67, V->86
-                if (code === this.lastTyped.keyCode) {
-                    var now = (new Date()).getTime();
-                    var diff = now - this.lastTyped.date;
-                    if (diff > 1000) {
-                        this.shapeshifting = false;
-                        game.add.tween(this.detection).to({
-                            alpha: 0
-                        }, 200, Phaser.Easing.Linear.None, true);
-                        this.lastTyped = {};
-                    }
-                }
-                else {
-                    this.shapeshifting = false;
-                    game.add.tween(this.detection).to({
-                        alpha: 0
-                    }, 200, Phaser.Easing.Linear.None, true);
-                    this.lastTyped = {};
-                }
+            if(game.gameOver || !game.started){
+                return;
             }
+            var code = e.keyCode;
+            //if (code === 90 || code == 88 || code == 67 || code === 86) { //Z->90, X->88, C->67, V->86
+            //    if (code === this.lastTyped.keyCode) {
+            //        var now = (new Date()).getTime();
+            //        var diff = now - this.lastTyped.date;
+            //        if (diff > 1000) {
+            //            this.shapeshifting = false;
+            //            game.add.tween(this.detection).to({
+            //                alpha: 0
+            //            }, 200, Phaser.Easing.Linear.None, true);
+            //            this.lastTyped = {};
+            //        }
+            //    }
+            //    else {
+            //        this.shapeshifting = false;
+            //        game.add.tween(this.detection).to({
+            //            alpha: 0
+            //        }, 200, Phaser.Easing.Linear.None, true);
+            //        this.lastTyped = {};
+            //    }
+            //}
             if (code >= 37 && code <= 40) {
+                console.log('I should be idling');
                 this.keyCodes[code] = false;
                 if (!this.checkKeyDown()  && this.running) {
                     this.setIdle();
@@ -144,10 +148,11 @@ $.extend(Player.prototype, {
                         this.shapeshift = 'dg';
                         break;
                 }
+                this.shapeshifting = false;
                 this.setIdle();
             }.bind(this, code), 800);
         }
-        this.shapeshifting = false;
+
         game.add.tween(this.detection).to({
             alpha: 0
         }, 200, Phaser.Easing.Linear.None, true);
@@ -162,7 +167,7 @@ $.extend(Player.prototype, {
         return false;
     },
     setRun: function () {
-        //console.log('RUN');
+        console.log('RUN');
         this.running = true;
         var texture;
         var speed = 8;
@@ -188,7 +193,7 @@ $.extend(Player.prototype, {
     },
     setIdle: function() {
         this.running = false;
-        //console.log('IDLE');
+        console.log('IDLE');
         var texture;
         var speed = 8;
 
