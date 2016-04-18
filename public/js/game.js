@@ -108,6 +108,9 @@ function update() {
     if(game.gameOver){
         return;
     }
+    if(this.player.foundSpaceShip()){
+        game.gameOver = true;
+    }
     if (cursors.up.isDown) {
         this.player.moveUp();
     }
@@ -124,4 +127,5 @@ function update() {
 
     this.labelXVal.text = this.player.sprite.x;
     this.labelYVal.text = this.player.sprite.y;
+
 }

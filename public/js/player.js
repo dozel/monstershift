@@ -5,7 +5,17 @@ var Player = function() {
 };
 Player.prototype.constructor = Player;
 
+DISTANCE_TO_SHIP = 25;
+
 $.extend(Player.prototype, {
+    foundSpaceShip: function(){
+        return this.isClose(this.sprite, this.spaceShip, DISTANCE_TO_SHIP);
+    },
+    isClose: function(a, b, minDistance){
+        var distance = game.math.distance(a.x, a.y, b.x, b.y);
+        var tooClose = (distance < minDistance);
+        return tooClose;
+    },
     init: function () {
         theBottom = game.add.group(gameWorld);
         this.detection = game.add.graphics(game.world.centerX, game.world.centerY, theBottom);
