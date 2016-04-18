@@ -112,6 +112,10 @@ $.extend(Player.prototype, {
                 this.setIdle();
             }.bind(this, code), 800);
         }
+        else {
+            this.shapeshifting = false;
+            this.setIdle();
+        }
     },
     checkKeyDown: function() {
         for (var key in this.keyCodes) {
