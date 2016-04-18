@@ -95,6 +95,12 @@ $.extend(Enemy.prototype, {
         this.setIdleAnimation();
     },
     moveTo: function(x, y, speed) {
+        if (x < this.x) {
+            this.scale.x = 1;
+        }
+        else {
+            this.scale.x = -1;
+        }
         if(this.body.velocity.x === 0 && this.body.velocity.y === 0){
             this.setRunAnimation();
         }

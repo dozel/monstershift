@@ -2,12 +2,13 @@ var game = new Phaser.Game(800, 480, Phaser.CANVAS, '', { preload: preload, crea
 var gameWorld, actors, theBottom; //Groups
 var cursors;
 var setup;
-var gameStarted = false;
+game.started = false;
+var music;
 
 var ZOOM_OUT        = false;
 var MAX_HERDS       = 10;
 var MAX_HERD_SIZE   = 10;
-var player, labelXVal, labelYVal;
+var player;
 
 function preload() {
     console.log('Preload') ;
@@ -16,10 +17,12 @@ function preload() {
 }
 
 function restartGame() {
+    game.started = game.gameOver = false;
     game.state.restart();
 }
 
 function create() {
+    console.log('CREATE') ;
     game.world.setBounds(0,0,4000,2400);
     var scale = 0.8;
     if(ZOOM_OUT){
@@ -32,27 +35,16 @@ function create() {
     background.y = (game.world.height - background.height) / 2;
     background.smoothed = false;
 
-    var labelBegin = game.add.text(0, 150, 'PRESS Z TO START!', {
+    var labelBegin = game.add.text(0, 0, 'PRESS Z TO START!', {
         font: "30pt slkscr",
         fill: 0x000000,
         boundsAlignH: 'center',
         boundsAlignV: 'middle'
     });
-    labelBegin.x = 0;
+    labelBegin.x = game.world.centerX - labelBegin.width;
+    labelBegin.y = game.world.centerY + 50;
     labelBegin.setTextBounds(0, 0, 800, 50);
 
-
-    game.input.keyboard.onUpCallback = function(e) {
-        var code = e.keyCode;
-        if (code === 90 && !gameStarted) {
-            labelBegin.alpha = 0;
-            startGame();
-        }
-    }.bind(this);
-}
-
-function startGame() {
-    gameStarted = true;
 
     actors = game.add.group(gameWorld);
 
@@ -60,18 +52,23 @@ function startGame() {
     cursors = game.input.keyboard.createCursorKeys();
     game.camera.follow(player.sprite);
 
-    var labelX = game.add.text(15, 15, 'X:', setup.font(18));
-    var labelY = game.add.text(15, 40, 'Y:', setup.font(18));
-    labelXVal = game.add.text(50, 15, player.sprite.x, setup.font(18));
-    labelYVal = game.add.text(50, 40, player.sprite.y, setup.font(18));
+    game.input.keyboard.onUpCallback = function(e) {
+        var code = e.keyCode;
+        if (code === 90 && !game.started) {
+            labelBegin.alpha = 0;
+            startGame();
+        }
+    }.bind(this);
+}
 
-    labelX.fixedToCamera = labelY.fixedToCamera = labelXVal.fixedToCamera = labelYVal.fixedToCamera = true;
+function startGame() {
+    game.started = true;
 
     setupEnemies(player);
     placeSpaceShip(player);
     gameWorld.bringToTop(actors);
 
-    var music = game.add.audio('song');
+    music = game.add.audio('song');
     music.play("",0,0.5,true);
 }
 
@@ -138,7 +135,7 @@ function randomPos(x, y, width, height) {
 }
 
 function update() {
-    if (gameStarted) {
+    if (game.started) {
         if (game.gameOver) {
             return;
         }
@@ -158,9 +155,6 @@ function update() {
         else if (cursors.right.isDown) {
             player.moveRight();
         }
-
-        labelXVal.text = player.sprite.x;
-        labelYVal.text = player.sprite.y;
     }
 }
 
@@ -172,19 +166,37 @@ function setGameOver(win) {
     else {
         text = "YOU BECOME SOMEONE'S DINNER... :( ";
     }
-
+    player.setIdle();
     var rectangle = game.add.graphics(0, 0);
     rectangle.beginFill(0x000000, 0.8);
     rectangle.bounds = new PIXI.RoundedRectangle(0, 0, game.world.width, game.world.height);
     rectangle.drawRect(0, 0, game.world.width, game.world.height);
 
-    var label = game.add.text(15, 15, text, {
+    var label = game.add.text(0, 50, text, {
         font: "30pt slkscr",
-        fill: colors.player,
+        fill: "#FFFFFF",
         boundsAlignH: 'center',
         boundsAlignV: 'middle'
     });
+    label.fixedToCamera = true;
+    label.setTextBounds(0, 0, 800, 50);
 
+    var labelRestart = game.add.text(0, 150, 'PRESS Z TO RESTART.', {
+        font: "30pt slkscr",
+        fill: "#FFFFFF",
+        boundsAlignH: 'center',
+        boundsAlignV: 'middle'
+    });
+    labelRestart.setTextBounds(0, 0, 800, 50);
+    labelRestart.fixedToCamera = true;
+
+    game.input.keyboard.onUpCallback = function(e) {
+        var code = e.keyCode;
+        if (code === 90) {
+            music.stop();
+            restartGame();
+        }
+    }.bind(this);
 
     game.gameOver = true;
 }

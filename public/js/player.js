@@ -40,7 +40,7 @@ $.extend(Player.prototype, {
 
 
         game.input.keyboard.onDownCallback = function(e) {
-            if(game.gameOver){
+            if(game.gameOver || !game.started){
                 return;
             }
             var code = e.keyCode;
