@@ -1,5 +1,5 @@
 var monsters = ['owl', 'beast', 'quick', 'dg'];
-
+var codez = {'owl' : 90, 'beast': 88, 'quick': 67, 'dg': 86};
 var Player = function() {
     this.init();
 };
@@ -32,7 +32,7 @@ $.extend(Player.prototype, {
         game.input.keyboard.onDownCallback = function(e) {
             console.log(e.keyCode);
             var code = e.keyCode;
-            if (code === 90 || code == 88 || code == 67) { //Z->90, X->88, C->67, V->86
+            if (code === 90 || code == 88 || code == 67 || code === 86) { //Z->90, X->88, C->67, V->86
                 game.add.tween(this.detection).to({
                     alpha: 1
                 }, 200, Phaser.Easing.Linear.None, true);
@@ -47,11 +47,6 @@ $.extend(Player.prototype, {
                         if (!this.shapeshifting) {
                             this.shapeshifting = true;
                             this.shapeShift(code);
-                            this.shapeshifting = false;
-                            game.add.tween(this.detection).to({
-                                alpha: 0
-                            }, 200, Phaser.Easing.Linear.None, true);
-                            this.lastTyped = {};
                         }
                     }
                 }
@@ -66,7 +61,7 @@ $.extend(Player.prototype, {
 
         game.input.keyboard.onUpCallback = function(e) {
             var code = e.keyCode;
-            if (code === 90 || code == 88 || code == 67) { //Z->90, X->88, C->67, V->86
+            if (code === 90 || code == 88 || code == 67 || code === 86) { //Z->90, X->88, C->67, V->86
                 if (code === this.lastTyped.keyCode) {
                     var now = (new Date()).getTime();
                     var diff = now - this.lastTyped.date;
@@ -97,43 +92,54 @@ $.extend(Player.prototype, {
     },
     shapeShift: function(code) {
         console.log("Shapeshift");
-        game.add.tween(this.sprite).to({
-            tint: colors.vamp
-        }, 200, Phaser.Easing.Linear.None, true);
 
-        setTimeout(function () {
-            game.add.tween(this.sprite).to({
-                tint: 0xffffff
-            }, 200, Phaser.Easing.Linear.None, true);
-        }.bind(this), 200);
-
-        setTimeout(function() {
+        if (codez[this.shapeshift] !== code) {
             game.add.tween(this.sprite).to({
                 tint: colors.vamp
             }, 200, Phaser.Easing.Linear.None, true);
-        }.bind(this), 400);
 
-        setTimeout(function () {
-            game.add.tween(this.sprite).to({
-                tint: 0xffffff
-            }, 200, Phaser.Easing.Linear.None, true);
-        }.bind(this), 600);
+            setTimeout(function () {
+                game.add.tween(this.sprite).to({
+                    tint: 0xffffff
+                }, 200, Phaser.Easing.Linear.None, true);
+            }.bind(this), 200);
+
+            setTimeout(function () {
+                game.add.tween(this.sprite).to({
+                    tint: colors.vamp
+                }, 200, Phaser.Easing.Linear.None, true);
+            }.bind(this), 400);
+
+            setTimeout(function () {
+                game.add.tween(this.sprite).to({
+                    tint: 0xffffff
+                }, 200, Phaser.Easing.Linear.None, true);
+            }.bind(this), 600);
 
             //Z->90, X->88, C->67
-        setTimeout(function() {
-            switch(code) {
-                case 90:
-                    this.shapeshift = 'owl';
-                    break;
-                case 88:
-                    this.shapeshift = 'beast';
-                    break;
-                case 67:
-                    this.shapeshift = 'quick';
-                    break;
-            }
-            this.setIdle();
-        }.bind(this, code), 800);
+            setTimeout(function () {
+                switch (code) {
+                    case 90:
+                        this.shapeshift = 'owl';
+                        break;
+                    case 88:
+                        this.shapeshift = 'beast';
+                        break;
+                    case 67:
+                        this.shapeshift = 'quick';
+                        break;
+                    default:
+                        this.shapeshift = 'dg';
+                        break;
+                }
+                this.setIdle();
+            }.bind(this, code), 800);
+        }
+        this.shapeshifting = false;
+        game.add.tween(this.detection).to({
+            alpha: 0
+        }, 200, Phaser.Easing.Linear.None, true);
+        this.lastTyped = {};
     },
     checkKeyDown: function() {
         for (var key in this.keyCodes) {
