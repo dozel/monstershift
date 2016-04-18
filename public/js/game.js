@@ -79,9 +79,14 @@ function setupEnemies(player) {
     var width = 250, height = 200, padding = 50;
     var herds = []; //Groups of same types of enemies
     for (var i = 0; i < MAX_HERDS; i++) {
-
-        var randomX = Math.floor(Math.random() * game.world.width - width - (2 * padding));
-        var randomY = Math.floor(Math.random() * game.world.height - height - (2 * padding));
+        while(true){
+            var randomX = Math.floor(Math.random() * game.world.width - width - (2 * padding));
+            var randomY = Math.floor(Math.random() * game.world.height - height - (2 * padding));
+            var herd = {x: randomX, y: randomY};
+            if(!player.isClose(player.sprite, herd, 400)){
+                break;
+            }
+        }
         herds.push({x: randomX, y: randomY});
     }
     var monsterTypes = ['quick', 'beast', 'owl'];
