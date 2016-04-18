@@ -4,7 +4,7 @@ var cursors;
 var setup;
 var gameStarted = false;
 
-var ZOOM_OUT        = true;
+var ZOOM_OUT        = false;
 var MAX_HERDS       = 10;
 var MAX_HERD_SIZE   = 10;
 var player, labelXVal, labelYVal;
@@ -32,15 +32,16 @@ function create() {
     background.y = (game.world.height - background.height) / 2;
     background.smoothed = false;
 
-    var labelBegin = game.add.text(0, game.world.centerY, 'PRESS Z TO START!', {
-        font: "100pt slkscr",
+    var labelBegin = game.add.text(0, 150, 'PRESS Z TO START!', {
+        font: "30pt slkscr",
         fill: 0x000000,
         boundsAlignH: 'center',
         boundsAlignV: 'middle'
     });
     labelBegin.x = 0;
-    labelBegin.y = game.world.centerY;
-    labelBegin.setTextBounds(0, 0, game.world.width, 50);
+    labelBegin.setTextBounds(0, 0, 800, 50);
+
+
     game.input.keyboard.onUpCallback = function(e) {
         var code = e.keyCode;
         if (code === 90 && !gameStarted) {
@@ -172,15 +173,12 @@ function setGameOver(win) {
     rectangle.bounds = new PIXI.RoundedRectangle(0, 0, game.world.width, game.world.height);
     rectangle.drawRect(0, 0, game.world.width, game.world.height);
 
-    var label = game.add.text(0, game.world.centerY, text, {
-        font: "100pt slkscr",
-        fill: 0xFFFFFF,
+    var label = game.add.text(15, 15, text, {
+        font: "30pt slkscr",
+        fill: colors.player,
         boundsAlignH: 'center',
         boundsAlignV: 'middle'
     });
-    label.x = 0;
-    label.y = game.world.centerY;
-    label.setTextBounds(0, 0, game.world.width, 50);
 
 
     game.gameOver = true;
