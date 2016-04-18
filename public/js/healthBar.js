@@ -23,7 +23,6 @@ $.extend(HealthBar.prototype, {
     },
     decHealth: function(newHealth) {
         var newWidth = this.healthBg.graphicsData[0].shape.width * newHealth / 100;
-        var newX = (this.healthBg.graphicsData[0].shape.width - this.healthBar.width) / 2;
         game.add.tween(this.healthBar.graphicsData[0].shape).to({
             width: newWidth
         }, 200, Phaser.Easing.Linear.None, true);
