@@ -30,7 +30,9 @@ $.extend(Player.prototype, {
 
 
         game.input.keyboard.onDownCallback = function(e) {
-            console.log(e.keyCode);
+            if(game.gameOver){
+                return; 
+            }
             var code = e.keyCode;
             if (code === 90 || code == 88 || code == 67 || code === 86) { //Z->90, X->88, C->67, V->86
                 game.add.tween(this.detection).to({

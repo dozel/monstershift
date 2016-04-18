@@ -26,6 +26,9 @@ var idleTextures = {
 Enemy.prototype = Object.create(Phaser.Sprite.prototype);
 Enemy.prototype.constructor = Enemy;
 Enemy.prototype.update  = function(){
+    if(game.gameOver){
+        return; 
+    }
     var playerIsClose = this.isClose(this, this.player.sprite, PLAYER_DISTANCE);
     var playerIsCapured = this.isClose(this, this.player.sprite, CAPTURE_DISTANCE);
     var sameType = (this.beastType === this.player.shapeshift);
@@ -36,6 +39,7 @@ Enemy.prototype.update  = function(){
         }
         else{
             console.log("GOTCHA BITCH");
+            game.gameOver = true;
         }
     } else if(this.idleStarted){
         if(game.time.now - this.idleStarted > IDLE_TIME){
