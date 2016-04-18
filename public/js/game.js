@@ -4,8 +4,8 @@ var cursors;
 var setup;
 
 var ZOOM_OUT        = true;
-var MAX_HERDS       = 1;
-var MAX_HERD_SIZE   = 1;
+var MAX_HERDS       = 10;
+var MAX_HERD_SIZE   = 10;
 
 function preload() {
     console.log('Preload') ;
