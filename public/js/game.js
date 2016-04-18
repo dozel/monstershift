@@ -3,7 +3,7 @@ var gameWorld, actors, theBottom; //Groups
 var cursors;
 var setup;
 
-var ZOOM_OUT        = true;
+var ZOOM_OUT        = false;
 var MAX_HERDS       = 10;
 var MAX_HERD_SIZE   = 10;
 
@@ -16,9 +16,11 @@ function preload() {
 
 function create() {
     game.world.setBounds(0,0,4000,2400);
+    var scale = 0.8;
     if(ZOOM_OUT){
-        game.world.scale.x = game.world.scale.y = 0.2;
+        scale = 0.2; 
     }
+    game.world.scale.x = game.world.scale.y = scale;
 
     var background = game.add.sprite(0, 0, 'bg', {}, gameWorld);
     background.x = (game.world.width - background.width) / 2;
