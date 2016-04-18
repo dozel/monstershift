@@ -189,40 +189,15 @@ function update() {
 }
 
 function setGameOver(win) {
-    var text;
-    if (win) {
-        text = 'YOU HAVE BESTED THE MONSTERS! CONGRATS!'
-    }
-    else {
-        text = "YOU BECOME SOMEONE'S DINNER... :( ";
-    }
     player.setIdle();
-    var rectangle = game.add.graphics(0, 0);
-    rectangle.beginFill(0x000000, 0.8);
-    rectangle.bounds = new PIXI.RoundedRectangle(0, 0, game.world.width, game.world.height);
-    rectangle.drawRect(0, 0, game.world.width, game.world.height);
+    var texture = win ? 'best' : 'worst';
+    var result = game.add.sprite(0, 0, texture, {});
+    result.fixedToCamera = true;
 
-    var label = game.add.text(0, 50, text, {
-        font: "30pt slkscr",
-        fill: "#FFFFFF",
-        boundsAlignH: 'center',
-        boundsAlignV: 'middle'
-    });
-    label.fixedToCamera = true;
-    label.setTextBounds(0, 0, 800, 50);
-
-    var labelRestart = game.add.text(0, 150, 'PRESS Z TO RESTART.', {
-        font: "30pt slkscr",
-        fill: "#FFFFFF",
-        boundsAlignH: 'center',
-        boundsAlignV: 'middle'
-    });
-    labelRestart.setTextBounds(0, 0, 800, 50);
-    labelRestart.fixedToCamera = true;
-
-    game.input.keyboard.onUpCallback = function(e) {
+    game.input.keyboard.onDownCallback = function(e) {
         var code = e.keyCode;
         if (code === 90) {
+            result.destroy();
             music.stop();
             restartGame();
         }
