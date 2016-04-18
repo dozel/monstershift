@@ -84,13 +84,15 @@ function setupEnemies(player) {
 
 function placeSpaceShip(player){
     game.world.setBounds(0,0,4000,2400);
-    var x = Math.floor(Math.random * (4000 - 100));
-    var y = Math.floor(Math.random * (2400 - 100))
+    var x = Math.floor(Math.random() * (4000 - 100));
+    var y = Math.floor(Math.random() * (2400 - 100))
 
     var texture = 'spaceShip';
 
     var spaceShip = game.add.sprite(x, y, texture);
     spaceShip.anchor.setTo(0.5, 0.5);
+
+
 
     player.spaceShip = spaceShip;
 }
