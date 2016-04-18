@@ -2,10 +2,12 @@ var game = new Phaser.Game(800, 480, Phaser.CANVAS, '', { preload: preload, crea
 var gameWorld, actors, theBottom; //Groups
 var cursors;
 var setup;
+var gameStarted = false;
 
 var ZOOM_OUT        = true;
 var MAX_HERDS       = 10;
 var MAX_HERD_SIZE   = 10;
+var player, labelXVal, labelYVal;
 
 function preload() {
     console.log('Preload') ;
@@ -13,6 +15,9 @@ function preload() {
     gameWorld = game.add.group();
 }
 
+function restartGame() {
+    game.state.restart();
+}
 
 function create() {
     game.world.setBounds(0,0,4000,2400);
@@ -27,25 +32,50 @@ function create() {
     background.y = (game.world.height - background.height) / 2;
     background.smoothed = false;
 
+    var labelBegin = game.add.text(0, game.world.centerY, 'PRESS Z TO START!', {
+        font: "100pt slkscr",
+        fill: 0x000000,
+        boundsAlignH: 'center',
+        boundsAlignV: 'middle'
+    });
+    labelBegin.x = 0;
+    labelBegin.y = game.world.centerY;
+    labelBegin.setTextBounds(0, 0, game.world.width, 50);
+    game.input.keyboard.onUpCallback = function(e) {
+        var code = e.keyCode;
+        if (code === 90 && !gameStarted) {
+            labelBegin.alpha = 0;
+            startGame();
+        }
+    }.bind(this);
+}
+
+function startGame() {
+    gameStarted = true;
+
     actors = game.add.group(gameWorld);
 
-    this.player = new Player();
+    player = new Player();
     cursors = game.input.keyboard.createCursorKeys();
-    game.camera.follow(this.player.sprite);
+    game.camera.follow(player.sprite);
 
     var labelX = game.add.text(15, 15, 'X:', setup.font(18));
     var labelY = game.add.text(15, 40, 'Y:', setup.font(18));
-    this.labelXVal = game.add.text(50, 15, this.player.sprite.x, setup.font(18));
-    this.labelYVal = game.add.text(50, 40, this.player.sprite.y, setup.font(18));
+    labelXVal = game.add.text(50, 15, player.sprite.x, setup.font(18));
+    labelYVal = game.add.text(50, 40, player.sprite.y, setup.font(18));
 
-    labelX.fixedToCamera = labelY.fixedToCamera = this.labelXVal.fixedToCamera = this.labelYVal.fixedToCamera = true;
+    labelX.fixedToCamera = labelY.fixedToCamera = labelXVal.fixedToCamera = labelYVal.fixedToCamera = true;
 
+<<<<<<< Updated upstream
     setupEnemies(this.player);
     placeSpaceShip(this.player);
+=======
+    setupEnemies(player);
+>>>>>>> Stashed changes
     gameWorld.bringToTop(actors);
 
-    this.music = game.add.audio('song');
-    this.music.play("",0,0.5,true);
+    var music = game.add.audio('song');
+    music.play("",0,0.5,true);
 }
 
 function setupEnemies(player) {
@@ -105,27 +135,38 @@ function randomPos(x, y, width, height) {
 }
 
 function update() {
-    if(game.gameOver){
-        return;
-    }
-    if(this.player.foundSpaceShip()){
-        game.gameOver = true;
-    }
-    if (cursors.up.isDown) {
-        this.player.moveUp();
-    }
-    else if (cursors.down.isDown) {
-        this.player.moveDown();
-    }
+    if (gameStarted) {
+        if (game.gameOver) {
+            return;
+        }
+        if (this.player.foundSpaceShip()) {
+            game.gameOver = true;
+        }
+        if (cursors.up.isDown) {
+            this.player.moveUp();
+        }
+        else if (cursors.down.isDown) {
+            this.player.moveDown();
+        }
 
-    if (cursors.left.isDown) {
-        this.player.moveLeft();
-    }
-    else if (cursors.right.isDown) {
-        this.player.moveRight();
-    }
+        if (cursors.left.isDown) {
+            player.moveLeft();
+        }
+        else if (cursors.right.isDown) {
+            player.moveRight();
+        }
 
-    this.labelXVal.text = this.player.sprite.x;
-    this.labelYVal.text = this.player.sprite.y;
+        labelXVal.text = player.sprite.x;
+        labelYVal.text = player.sprite.y;
+    }
+}
 
+function setGameOver(win) {
+    if (win) {
+        
+    }
+    else {
+
+    }
+    game.gameOver = true;
 }
