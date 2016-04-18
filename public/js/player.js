@@ -17,12 +17,6 @@ $.extend(Player.prototype, {
         return tooClose;
     },
     init: function () {
-        theBottom = game.add.group(gameWorld);
-        this.detection = game.add.graphics(game.world.centerX, game.world.centerY, theBottom);
-        this.detection.beginFill(colors.detect, 1);
-        this.detection.drawCircle(0, 0, 300);
-        this.detection.alpha = 0;
-
         this.sprite = game.add.sprite(game.world.centerX, game.world.centerY, 'dgIdle', {}, actors);
         this.sprite.anchor.setTo(0.5, 0.5);
 
@@ -33,7 +27,6 @@ $.extend(Player.prototype, {
         this.shapeshift = 'dg';
 
         this.keyCodes = {};
-        this.lastTyped = {};
         //setTimeout(function () {
         //    this.decHealth(50);
         //}.bind(this), 400);
@@ -45,22 +38,9 @@ $.extend(Player.prototype, {
             }
             var code = e.keyCode;
             if (code === 90 || code == 88 || code == 67 || code === 86) { //Z->90, X->88, C->67, V->86
-                game.add.tween(this.detection).to({
-                    alpha: 1
-                }, 200, Phaser.Easing.Linear.None, true);
-
-                if (!this.lastTyped.keyCode) {
-                    this.lastTyped = {keyCode: code, date: (new Date()).getTime()};
-                }
-                else if (this.lastTyped.keyCode === code){
-                    var now = (new Date()).getTime();
-                    var diff = now - this.lastTyped.date;
-                    if (diff < 1000) {
-                        if (!this.shapeshifting) {
-                            this.shapeshifting = true;
-                            this.shapeShift(code);
-                        }
-                    }
+                if (!this.shapeshifting) {
+                    this.shapeshifting = true;
+                    this.shapeShift(code);
                 }
             }
             if (code >= 37 && code <= 40) {
@@ -76,28 +56,7 @@ $.extend(Player.prototype, {
                 return;
             }
             var code = e.keyCode;
-            //if (code === 90 || code == 88 || code == 67 || code === 86) { //Z->90, X->88, C->67, V->86
-            //    if (code === this.lastTyped.keyCode) {
-            //        var now = (new Date()).getTime();
-            //        var diff = now - this.lastTyped.date;
-            //        if (diff > 1000) {
-            //            this.shapeshifting = false;
-            //            game.add.tween(this.detection).to({
-            //                alpha: 0
-            //            }, 200, Phaser.Easing.Linear.None, true);
-            //            this.lastTyped = {};
-            //        }
-            //    }
-            //    else {
-            //        this.shapeshifting = false;
-            //        game.add.tween(this.detection).to({
-            //            alpha: 0
-            //        }, 200, Phaser.Easing.Linear.None, true);
-            //        this.lastTyped = {};
-            //    }
-            //}
             if (code >= 37 && code <= 40) {
-                console.log('I should be idling');
                 this.keyCodes[code] = false;
                 if (!this.checkKeyDown()  && this.running) {
                     this.setIdle();
@@ -152,11 +111,6 @@ $.extend(Player.prototype, {
                 this.setIdle();
             }.bind(this, code), 800);
         }
-
-        game.add.tween(this.detection).to({
-            alpha: 0
-        }, 200, Phaser.Easing.Linear.None, true);
-        this.lastTyped = {};
     },
     checkKeyDown: function() {
         for (var key in this.keyCodes) {
@@ -219,21 +173,18 @@ $.extend(Player.prototype, {
     moveUp: function() {
         if (this.sprite.y - this.speed >= 0 && this.holdTimer === 0) {
             this.sprite.y -= this.speed;
-            this.detection.y -= this.speed;
             actors.sort('bottom', Phaser.Group.SORT_ASCENDING);
         }
     },
     moveDown: function() {
         if (this.sprite.y + this.speed + this.sprite.height <= game.world.height && this.holdTimer === 0) {
             this.sprite.y += this.speed;
-            this.detection.y += this.speed;
             actors.sort('bottom', Phaser.Group.SORT_ASCENDING);
         }
     },
     moveLeft: function() {
         if (this.sprite.x - this.speed >= 0 && this.holdTimer === 0) {
             this.sprite.x -= this.speed;
-            this.detection.x -= this.speed;
             actors.sort('bottom', Phaser.Group.SORT_ASCENDING);
             this.sprite.scale.x = 1;
         }
@@ -241,7 +192,6 @@ $.extend(Player.prototype, {
     moveRight: function() {
         if (this.sprite.x + this.speed + this.sprite.width <= game.world.width && this.holdTimer === 0) {
             this.sprite.x += this.speed;
-            this.detection.x += this.speed
             actors.sort('bottom', Phaser.Group.SORT_ASCENDING);
             this.sprite.scale.x = -1;
         }
