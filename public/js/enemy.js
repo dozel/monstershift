@@ -3,7 +3,7 @@ CAPTURE_DISTANCE = 50;
 ROAM_DISTANCE = 100;
 ROAM_SPEED = 100;
 CHASE_SPEED = 200;
-IDLE_TIME = 1200;
+IDLE_TIME = 3000;
 
 var Enemy = function(x, y, type) {
     this.init(x, y, type);
@@ -39,7 +39,7 @@ Enemy.prototype.update  = function(){
         }
         else{
             var now = (new Date()).getTime();
-            if (!this.gotHim || now - this.gotHim > 2000) {
+            if (!this.gotHim || now - this.gotHim > 1000) {
                 console.log("GOTCHA BITCH");
                 this.gotHim = (new Date()).getTime();
                 player.decHealth(10);

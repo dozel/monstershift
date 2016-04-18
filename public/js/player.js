@@ -21,7 +21,7 @@ $.extend(Player.prototype, {
         this.sprite.anchor.setTo(0.5, 0.5);
 
         this.speed = 5;
-        this.health = 100;
+        this.health = 50;
         this.holdTimer = 0;
         this.shapeshifting = false;
         this.shapeshift = 'dg';
