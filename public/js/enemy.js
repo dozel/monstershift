@@ -38,8 +38,12 @@ Enemy.prototype.update  = function(){
             return this.moveTo(this.player.sprite.x, this.player.sprite.y, CHASE_SPEED);
         }
         else{
-            console.log("GOTCHA BITCH");
-            this.setGameOver();
+            var now = (new Date()).getTime();
+            if (!this.gotHim || now - this.gotHim > 2000) {
+                console.log("GOTCHA BITCH");
+                this.gotHim = (new Date()).getTime();
+                player.decHealth(10);
+            }
         }
     } else if(this.idleStarted){
         if(game.time.now - this.idleStarted > IDLE_TIME){
@@ -62,7 +66,7 @@ Enemy.prototype.update  = function(){
         }
         return this.moveTo(this.roamPosition.x, this.roamPosition.y, ROAM_SPEED);
     }
-}
+};
 
 $.extend(Enemy.prototype, {
     stopMoving: function(){
@@ -73,8 +77,6 @@ $.extend(Enemy.prototype, {
     init: function(x, y, type) {
         this.type = type;
         this.beastType = type;
-        console.log('enemy Type is:', this.type);
-        var speed = 8;
         var texture = idleTextures[this.type];
         Phaser.Sprite.call(this, game, x, y, texture);
         this.game.physics.enable(this, Phaser.Physics.ARCADE);

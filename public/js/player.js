@@ -26,6 +26,7 @@ $.extend(Player.prototype, {
         this.shapeshifting = false;
         this.shapeshift = 'dg';
 
+        this.healthBar = new HealthBar(10, 10, 200, 20);
         this.keyCodes = {};
         //setTimeout(function () {
         //    this.decHealth(50);
@@ -198,9 +199,10 @@ $.extend(Player.prototype, {
     },
     decHealth: function(amount) {
         this.health -= amount;
-
+        this.healthBar.decHealth(this.health);
+        console.log("HIT:" + this.health);
         if (this.health <= 0) {
-            //TODO: TRIGGER GAME_OVER
+            this.setGameOver();
         }
     }
 });

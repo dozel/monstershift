@@ -91,6 +91,7 @@ function startGame() {
     background.smoothed = false;
 
     player = new Player();
+    player.setGameOver = setGameOver.bind(this, false);
     cursors = game.input.keyboard.createCursorKeys();
     game.camera.follow(player.sprite);
 
@@ -137,7 +138,7 @@ function setupEnemies(player) {
             enemy.tag = this.enemies.length;
             this.enemies.push(enemy);
             enemy.setPlayer(player);
-            enemy.setGameOver = setGameOver.bind(this, false);
+            //enemy.setGameOver = setGameOver.bind(this, false);
         }
     }
 }

@@ -1,9 +1,10 @@
 var colors = {
     detect: 0xf1e5d3,
-    vamp: 0xff7260,
+    vamp: 0xff3e3e,
     wolf: 0x43869f,
     zomb: 0x505050,
-    player: 0xe5c395
+    player: 0xe5c395,
+    healthBg: 0x441111
 };
 
 var Setup = function() {
