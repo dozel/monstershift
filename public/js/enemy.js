@@ -21,7 +21,7 @@ var idleTextures = {
     'owl': 'obIdle',
     'beast': 'dbIdle',
     'quick': 'qIdle'
-}
+};
 
 Enemy.prototype = Object.create(Phaser.Sprite.prototype);
 Enemy.prototype.constructor = Enemy;
@@ -39,7 +39,7 @@ Enemy.prototype.update  = function(){
         }
         else{
             console.log("GOTCHA BITCH");
-            game.gameOver = true;
+            this.setGameOver();
         }
     } else if(this.idleStarted){
         if(game.time.now - this.idleStarted > IDLE_TIME){

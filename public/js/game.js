@@ -66,12 +66,8 @@ function startGame() {
 
     labelX.fixedToCamera = labelY.fixedToCamera = labelXVal.fixedToCamera = labelYVal.fixedToCamera = true;
 
-<<<<<<< Updated upstream
-    setupEnemies(this.player);
-    placeSpaceShip(this.player);
-=======
     setupEnemies(player);
->>>>>>> Stashed changes
+    placeSpaceShip(player);
     gameWorld.bringToTop(actors);
 
     var music = game.add.audio('song');
@@ -108,6 +104,7 @@ function setupEnemies(player) {
             enemy.tag = this.enemies.length;
             this.enemies.push(enemy);
             enemy.setPlayer(player);
+            enemy.setGameOver = setGameOver.bind(this, false);
         }
     }
 }
@@ -139,14 +136,14 @@ function update() {
         if (game.gameOver) {
             return;
         }
-        if (this.player.foundSpaceShip()) {
-            game.gameOver = true;
+        if (player.foundSpaceShip()) {
+            setGameOver(true);
         }
         if (cursors.up.isDown) {
-            this.player.moveUp();
+            player.moveUp();
         }
         else if (cursors.down.isDown) {
-            this.player.moveDown();
+            player.moveDown();
         }
 
         if (cursors.left.isDown) {
@@ -162,11 +159,29 @@ function update() {
 }
 
 function setGameOver(win) {
+    var text;
     if (win) {
-        
+        text = 'YOU HAVE BESTED THE MONSTERS! CONGRATS!'
     }
     else {
-
+        text = "YOU BECOME SOMEONE'S DINNER... :( ";
     }
+
+    var rectangle = game.add.graphics(0, 0);
+    rectangle.beginFill(0x000000, 0.8);
+    rectangle.bounds = new PIXI.RoundedRectangle(0, 0, game.world.width, game.world.height);
+    rectangle.drawRect(0, 0, game.world.width, game.world.height);
+
+    var label = game.add.text(0, game.world.centerY, text, {
+        font: "100pt slkscr",
+        fill: 0xFFFFFF,
+        boundsAlignH: 'center',
+        boundsAlignV: 'middle'
+    });
+    label.x = 0;
+    label.y = game.world.centerY;
+    label.setTextBounds(0, 0, game.world.width, 50);
+
+
     game.gameOver = true;
 }
