@@ -67,5 +67,6 @@ $.extend(Setup.prototype, {
     },
     loadSounds: function() {
         game.load.audio('song', ['assets/sounds/monstershift.ogg', 'assets/sounds/monstershift.mp3']);
+        game.load.audio('intro', ['assets/sounds/ms_intro.ogg', 'assets/sounds/ms_intro.mp3']);
     }
 });

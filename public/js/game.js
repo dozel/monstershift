@@ -34,6 +34,10 @@ function create() {
         return;
     }
 
+    //
+    music = game.add.audio('intro');
+    music.play("",0,1.0,true);
+
     introBg = game.add.graphics(0, 0);
     introBg.beginFill(0x000000, 1);
     introBg.drawRect(0, 0, 800 * 1.25, 480 * 1.25);
@@ -67,13 +71,13 @@ function create() {
         var code = e.keyCode;
         if (code === 90 && !game.started) {
             clearInterval(introInterval);
-
+            music.fadeOut(400);
             this.tween1 = game.add.tween(labelBegin).to({
                 alpha: 0
-            }, 500, Phaser.Easing.Linear.None, true);
+            }, 300, Phaser.Easing.Linear.None, true);
             this.tween2 = game.add.tween(background).to({
                 alpha: 0
-            }, 500, Phaser.Easing.Linear.None, true);
+            }, 300, Phaser.Easing.Linear.None, true);
             this.tween1.onComplete.add(function () {
                 startGame();
             }.bind(this), this);
@@ -118,8 +122,11 @@ function startGame() {
         }, 200, Phaser.Easing.Linear.None, true);
     }
 
+
     music = game.add.audio('song');
-    music.play("",0,0.5,true);
+    setTimeout(function() {
+        music.play("",0,1.0,true);
+    }, 400);
 }
 
 function setupEnemies(player) {
