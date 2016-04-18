@@ -3,7 +3,9 @@ var gameWorld, actors, theBottom; //Groups
 var cursors;
 var setup;
 game.started = false;
+game.restarting = false;
 var music;
+var introInterval;
 
 var ZOOM_OUT        = false;
 var MAX_HERDS       = 10;
@@ -17,44 +19,50 @@ function preload() {
 }
 
 function restartGame() {
+    game.restarting = true;
     game.started = game.gameOver = false;
     game.state.restart();
 }
 
 function create() {
     console.log('CREATE') ;
-    game.world.setBounds(0,0,4000,2400);
-    var scale = 0.8;
-    if(ZOOM_OUT){
-        scale = 0.2;
-    }
-    game.world.scale.x = game.world.scale.y = scale;
 
-    var background = game.add.sprite(0, 0, 'bg', {}, gameWorld);
-    background.x = (game.world.width - background.width) / 2;
-    background.y = (game.world.height - background.height) / 2;
+    if (game.restarting) {
+        actors = game.add.group(gameWorld);
+        game.restarting = false;
+        startGame();
+        return;
+    }
+
+    var background = game.add.sprite(0, 0, 'intro', {}, gameWorld);
     background.smoothed = false;
 
-    var labelBegin = game.add.text(0, 0, 'PRESS Z TO START!', {
-        font: "30pt slkscr",
-        fill: 0x000000,
-        boundsAlignH: 'center',
-        boundsAlignV: 'middle'
+    var labelBegin = game.add.text(game.world.width / 2, game.world.height - 100, 'PRESS Z TO START!', {
+        font: "20pt slkscr",
+        fill: 0x000000
     });
-    labelBegin.x = game.world.centerX - labelBegin.width;
-    labelBegin.y = game.world.centerY + 50;
-    labelBegin.setTextBounds(0, 0, 800, 50);
 
+    introInterval = setInterval (function() {
+        for (var i = 0; i < labelBegin.text.length + 1; i++) {
+            (function(e) {
+                setTimeout(function() {
+                    if (e > 0) {
+                        labelBegin.addColor("#000000", e - 1);
+                    }
+                    labelBegin.addColor("#ffffff", e);
+                }, e * 50);
+            })(i);
+        }
+    }.bind(labelBegin), 5000);
 
     actors = game.add.group(gameWorld);
 
-    game.camera.x = game.world.centerX - 800;
-    game.camera.y = game.world.centerY - 480;
 
     game.input.keyboard.onUpCallback = function(e) {
         var code = e.keyCode;
         if (code === 90 && !game.started) {
-            labelBegin.alpha = 0;
+            labelBegin.alpha = background.alpha = 0;
+            clearInterval(introInterval);
             startGame();
         }
     }.bind(this);
@@ -62,6 +70,25 @@ function create() {
 
 function startGame() {
     game.started = true;
+
+    game.world.setBounds(0,0,4000,2400);
+
+
+    var scale = 0.8;
+    if(ZOOM_OUT){
+        scale = 0.2;
+    }
+    game.world.scale.x = game.world.scale.y = scale;
+
+
+    game.camera.x = game.world.centerX - 800;
+    game.camera.y = game.world.centerY - 480;
+
+
+    var background = game.add.sprite(0, 0, 'bg', {}, gameWorld);
+    background.x = (game.world.width - background.width) / 2;
+    background.y = (game.world.height - background.height) / 2;
+    background.smoothed = false;
 
     player = new Player();
     cursors = game.input.keyboard.createCursorKeys();

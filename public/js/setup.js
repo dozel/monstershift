@@ -45,6 +45,7 @@ $.extend(Setup.prototype, {
         game.stage.smoothed = false;
 
         game.load.image('bg', 'assets/imgs/bg.png');
+        game.load.image('intro', 'assets/imgs/monster_shift.png');
 
         game.load.spritesheet('dgIdle', 'assets/imgs/dg_idle_sheet.png', 128, 128, 8);
         game.load.spritesheet('dgRun', 'assets/imgs/dg_walk_sheet.png', 128, 128, 4);
