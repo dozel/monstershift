@@ -4,7 +4,7 @@ var cursors;
 var setup;
 game.started = false;
 game.restarting = false;
-var music;
+var music, introBg, endBg;
 var introInterval;
 
 var ZOOM_OUT        = false;
@@ -29,12 +29,17 @@ function create() {
 
     if (game.restarting) {
         actors = game.add.group(gameWorld);
-        game.restarting = false;
         startGame();
+        game.restarting = false;
         return;
     }
 
-    var background = game.add.sprite(0, 0, 'intro', {}, gameWorld);
+    introBg = game.add.graphics(0, 0);
+    introBg.beginFill(0x000000, 1);
+    introBg.drawRect(0, 0, 800 * 1.25, 480 * 1.25);
+    introBg.fixedToCamera = true;
+
+    var background = game.add.sprite(0, 0, 'intro', {});
     background.smoothed = false;
 
     var labelBegin = game.add.text(game.world.width / 2, game.world.height - 100, 'PRESS Z TO START!', {
@@ -61,9 +66,17 @@ function create() {
     game.input.keyboard.onUpCallback = function(e) {
         var code = e.keyCode;
         if (code === 90 && !game.started) {
-            labelBegin.alpha = background.alpha = 0;
             clearInterval(introInterval);
-            startGame();
+
+            this.tween1 = game.add.tween(labelBegin).to({
+                alpha: 0
+            }, 500, Phaser.Easing.Linear.None, true);
+            this.tween2 = game.add.tween(background).to({
+                alpha: 0
+            }, 500, Phaser.Easing.Linear.None, true);
+            this.tween1.onComplete.add(function () {
+                startGame();
+            }.bind(this), this);
         }
     }.bind(this);
 }
@@ -98,6 +111,12 @@ function startGame() {
     setupEnemies(player);
     placeSpaceShip(player);
     gameWorld.bringToTop(actors);
+
+    if (!game.restarting) {
+        game.add.tween(introBg).to({
+            alpha: 0
+        }, 200, Phaser.Easing.Linear.None, true);
+    }
 
     music = game.add.audio('song');
     music.play("",0,0.5,true);
@@ -154,6 +173,14 @@ function placeSpaceShip(player){
     spaceShip.anchor.setTo(0.5, 0.5);
 
 
+    if (!game.restarting) {
+        spaceShip.alpha = 0;
+        setTimeout(function () {
+            spaceShip.alpha = 1;
+        }.bind(spaceShip), 200);
+    }
+
+
 
     player.spaceShip = spaceShip;
 }
@@ -191,18 +218,31 @@ function update() {
 
 function setGameOver(win) {
     player.setIdle();
+
+    var bg = game.add.graphics(0, 0);
+    bg.beginFill(0x000000, 1);
+    bg.drawRect(0, 0, 800 * 1.25, 480 * 1.25);
+    bg.fixedToCamera = true;
+
     var texture = win ? 'best' : 'worst';
     var result = game.add.sprite(0, 0, texture, {});
     result.fixedToCamera = true;
     result.scale.setTo(1.25, 1.25);
 
-
     game.input.keyboard.onDownCallback = function(e) {
         var code = e.keyCode;
         if (code === 90) {
-            result.destroy();
-            music.stop();
-            restartGame();
+            this.restartTween = game.add.tween(result).to({
+                alpha: 0
+            }, 500, Phaser.Easing.Linear.None, true);
+            this.restartTween.onComplete.add(function () {
+                game.add.tween(bg).to({
+                    alpha: 0
+                }, 200, Phaser.Easing.Linear.None, true);
+                result.destroy();
+                music.stop();
+                restartGame();
+            }.bind(this), this);
         }
     }.bind(this);
 

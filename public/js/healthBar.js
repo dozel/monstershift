@@ -14,12 +14,22 @@ $.extend(HealthBar.prototype, {
         this.healthBg = game.add.graphics(x  + 50, y - 2);
         this.healthBg.beginFill(colors.healthBg, 1);
         this.healthBg.drawRect(x  + 50, y - 2, width, height);
+
         this.healthBg.fixedToCamera = true;
 
         this.healthBar = game.add.graphics(x + 50, y - 2);
         this.healthBar.beginFill(colors.vamp, 1);
         this.healthBar.drawRect(x  + 50, y - 2, width, height);
         this.healthBar.fixedToCamera = true;
+
+
+        if (!game.restarting) {
+            this.healthBg.alpha = 0;
+            this.healthBar.alpha = 0;
+            setTimeout(function () {
+                this.healthBar.alpha = this.healthBg.alpha = 1;
+            }.bind(this), 200);
+        }
     },
     decHealth: function(newHealth) {
         var newWidth = this.healthBg.graphicsData[0].shape.width * newHealth / 100;
