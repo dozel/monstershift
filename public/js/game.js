@@ -193,6 +193,8 @@ function setGameOver(win) {
     var texture = win ? 'best' : 'worst';
     var result = game.add.sprite(0, 0, texture, {});
     result.fixedToCamera = true;
+    result.scale.setTo(1.25, 1.25);
+
 
     game.input.keyboard.onDownCallback = function(e) {
         var code = e.keyCode;
